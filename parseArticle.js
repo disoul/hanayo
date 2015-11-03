@@ -43,13 +43,17 @@ function ArticleParse(opt) {
 
 ArticleParse.prototype._transform = function(chunk, encoding, done) {
     var article_string = chunk.toString();
-    var re = /\n----+/;
-    var head = article_string.slice(0, re.exec(article_string).index);
+    var re = /(\n----+)/;
+    var article_exec = re.exec(article_string);
+    console.log(re.exec(article_string));
+    var head = article_string.slice(0, article_exec.index);
     this.headParse(head + '\n');
+    this.push(new Buffer(
+        '<div class="article_content">'+
+        markdown.toHTML(article_string.slice(
+            article_exec.index+article_exec[1].length, -1
+        ))+'</div>'
+    ));
 
 
 };
-
-var articleParse = new ArticleParse();
-var wr = fs.createWriteStream('./out');
-article.pipe(articleParse).pipe(wr);

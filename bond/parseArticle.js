@@ -5,8 +5,6 @@ var util = require('util');
 
 util.inherits(ArticleParse, Transform);
 
-var article = fs.createReadStream('./article/test', {encoding: 'utf8'});
-
 function ArticleParse(opt) {
     if (!(this instanceof ArticleParse))
         return new ArticleParse(opt);
@@ -55,5 +53,5 @@ ArticleParse.prototype._transform = function(chunk, encoding, done) {
         ))+'</div>'
     ));
 
-
+    done();
 };

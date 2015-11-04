@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/disoul/bond#readme",
   "devDependencies": {
+    "jade": "^1.11.0",
+    "js-yaml": "^3.4.3",
     "markdown": "^0.5.0"
   }
 }

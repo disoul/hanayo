@@ -22,6 +22,8 @@ YamlParse.prototype._read = function(size) {
     this.push(null);
 };
 
+module.exports = YamlParse;
+
 /* test
 var yamlparse = new YamlParse({
     ymlpath: '/home/disoul/Documents/webPoj/bond/views/blog.yml',

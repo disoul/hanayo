@@ -11,31 +11,36 @@ function ArticleParse(opt) {
 
     Transform.call(this, opt);
     var self = this;
+    this.title = '';
+    this.tags = [];
+    this.author = '';
+    this.content = '';
 
     this.headParse = function(str) {
         var re = /title: *(\S*)\n/;
         var title,tags,author;
         if ((title = re.exec(str)) !== null) {
-            self.push(new Buffer(
-                "<div class='article_title'><p>"+title[1]+"</p><div>"
-            ));
+            self.title = title[1];
         }
         re = /tag: *(\S*)\n/;
         if ((tags = re.exec(str)) !== null){
             tags[1].split(',').map(function(ele) {
                 console.log(ele);
-                self.push(new Buffer(
-                    "<div class='article_tag'><p>"+ele+"</p></div>"
-                ));
+                self.tags.push(ele);
             });
         }
         re = /author: *(\S*)\n/;
         if ((author = re.exec(str)) !== null){
             console.log(author);
-            self.push(new Buffer(
-                "<div class='article_author'><p>"+author[1]+"</p></div>"
-            ));
+            self.author = author[1];
         }
+    };
+
+    this.getObj = function() {
+        return {
+            flag: 'article', title: self.title, tag: self.tags,
+            author: self.author, content: self.content
+        };
     };
 }
 
@@ -46,12 +51,14 @@ ArticleParse.prototype._transform = function(chunk, encoding, done) {
     console.log(re.exec(article_string));
     var head = article_string.slice(0, article_exec.index);
     this.headParse(head + '\n');
-    this.push(new Buffer(
-        '<div class="article_content">'+
-        markdown.toHTML(article_string.slice(
+    this.content = markdown.toHTML(article_string.slice(
             article_exec.index+article_exec[1].length, -1
-        ))+'</div>'
     ));
 
+    this.push(new Buffer(
+        this.getObj()
+    ));
     done();
 };
+
+module.exports = ArticleParse;

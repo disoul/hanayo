@@ -10,11 +10,16 @@ function JadeParse(opt) {
         return new JadeParse(opt);
 
     Transform.call(this, opt);
-    this._writeableState.objectMode = false;
+    this._writableState.objectMode = false;
     this._readableState.objectMode = true;
     var self = this;
+
+    this.obj = {};
 }
 
 JadeParse.prototype._transform = function(chunk, encode, callback) {
-       
+    console.log(chunk.toString());
+    console.log('///');    
 };
+
+module.exports = JadeParse;

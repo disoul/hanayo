@@ -17,15 +17,16 @@ function getArticles(){
             article.on('end', function() {
                 console.log('article end');
             });
-            filestream.pipe(article).pipe(jade);
+            filestream.pipe(article).pipe(jade).pipe(out);
         });
     });
 
 }
 
-var jade = new JadeParse({objectMode: true}),
-    yaml = new YamlParse({ymlpath: '/home/disoul/Documents/webPoj/bond/views/blog.yml'}),
- article = new ArticleParse();
+var article = new ArticleParse(),
+       jade = new JadeParse({objectMode: true}),
+       yaml = new YamlParse({ymlpath: '/home/disoul/Documents/webPoj/bond/views/blog.yml'}),
+        out = fs.createWriteStream('out');
 jade.on('end', function() {
     console.log('end');
 });

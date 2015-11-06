@@ -13,11 +13,10 @@ function getArticles(){
             var filestream = fs.createReadStream(
                 path.join(article_path, file), 'utf8'
             );
-            console.log('22');
             article.on('end', function() {
                 console.log('article end');
             });
-            filestream.pipe(article).pipe(jade).pipe(out);
+            filestream.pipe(article).pipe(jade);
         });
     });
 
@@ -25,10 +24,10 @@ function getArticles(){
 
 var article = new ArticleParse(),
        jade = new JadeParse({objectMode: true}),
-       yaml = new YamlParse({ymlpath: '/home/disoul/Documents/webPoj/bond/views/blog.yml'}),
+       yaml = new YamlParse({ymlpath: path.resolve(__dirname, '../views/blog.yml')}),
         out = fs.createWriteStream('out');
-jade.on('end', function() {
-    console.log('end');
-});
 yaml.pipe(jade, {end: false});
 getArticles();
+jade.on('pipe', function() {
+    console.log('sadsadadaadasd');
+});

@@ -1,15 +1,15 @@
-var Transform = require('stream').Transform;
+var Duplex = require('stream').Duplex;
 var jade = require('jade');
 var util = require('util');
 var fs = require('fs');
 
-util.inherits(JadeParse, Transform);
+util.inherits(JadeParse, Duplex);
 
 function JadeParse(opt) {
     if (!(this instanceof JadeParse))
         return new JadeParse(opt);
 
-    Transform.call(this, opt);
+    Duplex.call(this, opt);
     var self = this;
 
     this.obj = {};
@@ -30,7 +30,7 @@ function JadeParse(opt) {
     };
 }
 
-JadeParse.prototype._transform = function(chunk, encode, callback) {
+JadeParse.prototype._write = function(chunk, encode, callback) {
     var chunkObj = JSON.parse(chunk.toString());
     if (chunkObj.flag == 'article') {
         this.articles.articles.push(chunkObj);
@@ -38,10 +38,15 @@ JadeParse.prototype._transform = function(chunk, encode, callback) {
     }else {
         this.mergeObj(chunkObj);
     }
-    console.log(this.obj);
+    console.log(chunkObj);
 
-    this.push(JSON.stringify(this.obj));
+    //this.push(JSON.stringify(this.obj));
     callback();
 };
+
+JadeParse.prototype._read = function(size) {
+    this.push(JSON.stringify(this.obj));
+    this.push(null);
+}
 
 module.exports = JadeParse;

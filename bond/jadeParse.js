@@ -11,7 +11,8 @@ function JadeParse(opt) {
 
     Duplex.call(this, opt);
     var self = this;
-
+    this.jadePath = opt.jadePath;
+    this.htmlPath = opt.htmlPath;
     this.obj = {};
     this.articles = { articles: [] };
     this.mergeObj = function(obj) {
@@ -42,7 +43,10 @@ JadeParse.prototype._write = function(chunk, encode, callback) {
 };
 
 JadeParse.prototype._read = function(size) {
-    this.push(JSON.stringify(this.obj));
+    var jadefn = jade.compileFile(this.jadePath + '/index.jade',{
+        cache: true, 
+    })
+    this.push(jadefn(this.obj));
     this.push(null);
 }
 

@@ -20,11 +20,14 @@ function getArticles(){
 }
 
 var article = new ArticleParse(),
-       jade = new JadeParse({objectMode: true}),
+       jade = new JadeParse({
+           objectMode: true,
+           jadePath: path.resolve(__dirname,'../views/template/pages')
+       }),
        yaml = new YamlParse({ymlpath: path.resolve(__dirname, '../views/blog.yml')}),
-        out = fs.createWriteStream('out');
+        html = fs.createWriteStream('index.html');
 jade.on('finish', function() {
-    jade.pipe(out);
+    jade.pipe(html);
 });
 yaml.pipe(jade, {end: false});
 getArticles();

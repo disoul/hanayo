@@ -1,22 +1,23 @@
 var markdown = require('markdown').markdown;
-var Transform = require('stream').Transform;
+var Readable = require('stream').Readable;
 var fs = require('fs');
 var util = require('util');
 
-util.inherits(ArticleParse, Transform);
+util.inherits(ArticleParse, Readable);
 
 function ArticleParse(opt) {
     if (!(this instanceof ArticleParse))
         return new ArticleParse(opt);
 
-    Transform.call(this, opt);
+    Readable.call(this, opt);
     var self = this;
-    this._writableState.objectMode = false;
     this._readableState.objectMode = true;
     this.title = '';
     this.tags = [];
     this.author = '';
     this.content = '';
+
+    this.articlePath = opt.articlePath;
 
     this.headParse = function(str) {
         var re = /title: *(\S*)\n/;
@@ -39,23 +40,25 @@ function ArticleParse(opt) {
     this.getObj = function() {
         return {
             flag: 'article', title: self.title, tag: self.tags,
-            author: self.author, content: self.content
+            author: self.author, content: self.content,
+            time: fs.statSync(self.articlePath).ctime
         };
     };
 }
 
-ArticleParse.prototype._transform = function(chunk, encoding, done) {
-    var article_string = chunk.toString();
+ArticleParse.prototype._read = function(size) {
+    var self = this;
+    var article_string = fs.readFileSync(this.articlePath, {encoding: 'utf8'});
     var re = /(\n----+)/;
     var article_exec = re.exec(article_string);
     var head = article_string.slice(0, article_exec.index);
-    this.headParse(head + '\n');
-    this.content = markdown.toHTML(article_string.slice(
+    self.headParse(head + '\n');
+    self.content = markdown.toHTML(article_string.slice(
             article_exec.index+article_exec[1].length, -1
     ));
-
-    this.push((JSON.stringify(this.getObj())));
-    done();
+    console.log('push');
+    self.push((JSON.stringify(self.getObj())));
+    self.push(null);
 };
 
 module.exports = ArticleParse;

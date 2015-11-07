@@ -12,27 +12,43 @@ function JadeParse(opt) {
     Duplex.call(this, opt);
     var self = this;
     this.jadePath = opt.jadePath;
-    this.htmlPath = opt.htmlPath;
+    this.jadePage = opt.jadePage;
     this.obj = {};
-    this.articles = { articles: [] };
+    this.articles = {};
     this.mergeObj = function(obj) {
         for (var attr in obj) {
             self.obj[attr] = obj[attr];
         }
     };
     this.isMerge = function(obj) {
+        if (Object.keys(this.articles).length === 0) return true; 
+        if (this.articles.article !== undefined) {
+            if (this.articles.article.title == obj.title) {
+                return false;
+            }else {
+                return true;
+            }
+        }
         for (var i = 0;i<self.articles.articles.length;i++) {
             if (self.articles.articles[i].title == obj.title)
                 return false;
         }
         return true;
-    }
+    };
 }
 
 JadeParse.prototype._write = function(chunk, encode, callback) {
     var chunkObj = JSON.parse(chunk.toString());
     if ((chunkObj.flag == 'article') && (this.isMerge(chunkObj))) {
-        this.articles.articles.push(chunkObj);
+        if (Object.keys(this.articles).length === 0) {
+            this.articles = { article: chunkObj };
+        }else if (this.articles.article !== undefined ){
+            this.articles = { articles: [this.articles.article]};
+            this.articles.article = undefined;
+            this.articles.articles.push(chunkObj);
+        }else {
+            this.articles.articles.push(chunkObj);
+        }
         this.mergeObj(this.articles);
     }else if (chunkObj.flag != 'article'){
         this.mergeObj(chunkObj);
@@ -43,11 +59,11 @@ JadeParse.prototype._write = function(chunk, encode, callback) {
 };
 
 JadeParse.prototype._read = function(size) {
-    var jadefn = jade.compileFile(this.jadePath + '/index.jade',{
+    var jadefn = jade.compileFile(this.jadePath + '/' + this.jadePage,{
         cache: true, 
-    })
+    });
     this.push(jadefn(this.obj));
     this.push(null);
-}
+};
 
 module.exports = JadeParse;

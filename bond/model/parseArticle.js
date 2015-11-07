@@ -2,6 +2,7 @@ var markdown = require('markdown').markdown;
 var Readable = require('stream').Readable;
 var fs = require('fs');
 var util = require('util');
+var path = require('path');
 
 util.inherits(ArticleParse, Readable);
 
@@ -41,13 +42,15 @@ function ArticleParse(opt) {
         return {
             flag: 'article', title: self.title, tag: self.tags,
             author: self.author, content: self.content,
-            time: fs.statSync(self.articlePath).ctime
+            time: fs.statSync(self.articlePath).ctime,
+            name: path.basename(self.articlePath, '.md')
         };
     };
 }
 
 ArticleParse.prototype._read = function(size) {
     var self = this;
+    console.log(this.articlePath);
     var article_string = fs.readFileSync(this.articlePath, {encoding: 'utf8'});
     var re = /(\n----+)/;
     var article_exec = re.exec(article_string);

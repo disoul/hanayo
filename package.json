@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": " ",
   "main": " ",
+  "bin": {
+    "bond": "./bond/cli/bond-cli.js"
+  },
   "scripts": {
     "test": " "
   },

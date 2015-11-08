@@ -3,75 +3,82 @@ var ArticleParse = require('../model/parseArticle.js'),
        YamlParse = require('../model/ymlParse.js'),
               fs = require('fs'),
           mkdirp = require('mkdirp'),
-            path = require('path'),
-    article_path = path.resolve(__dirname, '../../views/article'),
-     archivesDir = path.resolve(
-         __dirname, '../../views/template/default/archives');
+            path = require('path');
 
-function getArticles(){
-    fs.readdir(article_path, function(err, files) {
-        if (err)
-            throw err;
-        files.map(function(file, index) {
-            var article = new ArticleParse({
-                articlePath: path.join(article_path, file)
+function CompileJade() {
+    if (!(this instanceof CompileJade)) 
+        return new CompileJade();
+
+    this.article_path = path.resolve(__dirname, '../../views/article');
+    this.archivesDir = path.resolve(
+        __dirname, '../../views/template/default/archives');
+    var self = this;
+    this.getArticles = function(){
+        fs.readdir(this.article_path, function(err, files) {
+            if (err)
+                throw err;
+            files.map(function(file, index) {
+                var article = new ArticleParse({
+                    articlePath: path.join(self.article_path, file)
+                });
+                article.pipe(self.jade);
             });
-            article.pipe(jade);
         });
-    });
+    };
 
-}
 
-function compileArticles(jadeobj) {
-    jadeobj.articles.map(function(article) {
-        var date = new Date(article.time);
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var articleJade = new JadeParse({
+    this.compileArticles = function(jadeobj) {
+        jadeobj.articles.map(function(article) {
+            var date = new Date(article.time);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var articleJade = new JadeParse({
+                objectMode: true,
+                jadePath: path.resolve(
+                    __dirname, '../../views/template/default/pages'),
+                jadePage: 'article.jade'
+
+            });
+            var articleParse = new ArticleParse({
+                articlePath: self.article_path + '/' + article.name + '.md'
+            });
+            new YamlParse().pipe(articleJade, {end: false});
+            articleParse.pipe(articleJade);
+            articleJade.on('finish', function() {
+                mkdirp(path.join(
+                    self.archivesDir, article.time.year, article.time.month),
+                    function(err) {
+                        if (err) throw err;
+                        var articleHtml = fs.createWriteStream(
+                            path.join(
+                                self.archivesDir, article.time.year, 
+                                article.time.month,article.name + '.html')
+                        );
+                        articleJade.pipe(articleHtml);
+                    }
+                );
+            });
+        });
+    };
+
+    this.jade = new JadeParse({
             objectMode: true,
-            jadePath: path.resolve(
-                __dirname, '../../views/template/default/pages'),
-            jadePage: 'article.jade'
+            jadePage: 'index.jade'
+        });
 
+    this.build = function(opt) {
+        var yaml = new YamlParse(),
+            html = fs.createWriteStream(path.resolve(
+                __dirname, '../../views/template/default/index.html'));
+
+        this.jade.on('finish', function() {
+            self.jade.pipe(html);
+            self.compileArticles(self.jade.obj);
         });
-        var articleParse = new ArticleParse({
-            articlePath: article_path + '/' + article.name + '.md'
-        });
-        new YamlParse().pipe(articleJade, {end: false});
-        articleParse.pipe(articleJade);
-        articleJade.on('finish', function() {
-            mkdirp(path.join(
-                archivesDir, article.time.year, article.time.month),
-                function(err) {
-                    if (err) throw err;
-                    var articleHtml = fs.createWriteStream(
-                        path.join(
-                            archivesDir, article.time.year, article.time.month,
-                            article.name + '.html')
-                    );
-                    articleJade.pipe(articleHtml);
-                }
-            );
-        });
-    });
+
+        yaml.pipe(this.jade, {end: false});
+        this.getArticles();
+    };
 }
 
-function CompileArchives(obj) {
-    
-}
-
-var jade = new JadeParse({
-        objectMode: true,
-        jadePage: 'index.jade'
-    }),
-    yaml = new YamlParse(),
-    html = fs.createWriteStream(path.resolve(
-        __dirname, '../../views/template/default/index.html'));
-
-jade.on('finish', function() {
-    jade.pipe(html);
-    compileArticles(jade.obj);
-});
-
-yaml.pipe(jade, {end: false});
-getArticles();
+module.exports = CompileJade;

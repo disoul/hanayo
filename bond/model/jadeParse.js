@@ -2,6 +2,7 @@ var Duplex = require('stream').Duplex;
 var jade = require('jade');
 var util = require('util');
 var fs = require('fs');
+var path = require('path');
 
 util.inherits(JadeParse, Duplex);
 
@@ -11,7 +12,12 @@ function JadeParse(opt) {
 
     Duplex.call(this, opt);
     var self = this;
-    this.jadePath = opt.jadePath;
+    if (opt && opt.jadePath !== undefined) {
+        this.jadePath = opt.jadePath;
+    }else {
+        this.jadePath = path.resolve(
+            __dirname, '../../views/template/default/pages');
+    }
     this.jadePage = opt.jadePage;
     this.obj = {};
     this.articles = {};

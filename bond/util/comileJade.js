@@ -3,10 +3,12 @@ var ArticleParse = require('../model/parseArticle.js'),
        YamlParse = require('../model/ymlParse.js'),
               fs = require('fs'),
           mkdirp = require('mkdirp'),
-            path = require('path');
+            path = require('path'),
+    article_path = path.resolve(__dirname, '../../views/article'),
+     archivesDir = path.resolve(
+         __dirname, '../../views/template/default/archives');
 
 function getArticles(){
-    var article_path = path.resolve(__dirname, '../../views/article');
     fs.readdir(article_path, function(err, files) {
         if (err)
             throw err;
@@ -21,10 +23,6 @@ function getArticles(){
 }
 
 function compileArticles(jadeobj) {
-    console.log(jadeobj);
-    var article_path = path.resolve(__dirname, '../../views/article');
-    var archivesDir = path.resolve(
-        __dirname, '../../views/template/default/archives');
     jadeobj.articles.map(function(article) {
         var date = new Date(article.time);
         var year = date.getFullYear();
@@ -39,16 +37,16 @@ function compileArticles(jadeobj) {
         var articleParse = new ArticleParse({
             articlePath: article_path + '/' + article.name + '.md'
         });
-        yaml.pipe(articleJade, {end: false});
+        new YamlParse().pipe(articleJade, {end: false});
         articleParse.pipe(articleJade);
         articleJade.on('finish', function() {
             mkdirp(path.join(
-                archivesDir, year.toString(), month.toString()),
+                archivesDir, article.time.year, article.time.month),
                 function(err) {
                     if (err) throw err;
                     var articleHtml = fs.createWriteStream(
                         path.join(
-                            archivesDir, year.toString(), month.toString(),
+                            archivesDir, article.time.year, article.time.month,
                             article.name + '.html')
                     );
                     articleJade.pipe(articleHtml);
@@ -58,19 +56,19 @@ function compileArticles(jadeobj) {
     });
 }
 
+function CompileArchives(obj) {
+    
+}
+
 var jade = new JadeParse({
         objectMode: true,
-        jadePath: path.resolve(__dirname,'../../views/template/default/pages'),
         jadePage: 'index.jade'
     }),
-    yaml = new YamlParse({
-        ymlpath: path.resolve(__dirname, '../../views/blog.yml')
-    }),
+    yaml = new YamlParse(),
     html = fs.createWriteStream(path.resolve(
         __dirname, '../../views/template/default/index.html'));
 
 jade.on('finish', function() {
-    console.log('finish');
     jade.pipe(html);
     compileArticles(jade.obj);
 });

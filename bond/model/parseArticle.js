@@ -39,10 +39,15 @@ function ArticleParse(opt) {
     };
 
     this.getObj = function() {
+        var date = fs.statSync(self.articlePath).ctime;
         return {
             flag: 'article', title: self.title, tag: self.tags,
             author: self.author, content: self.content,
-            time: fs.statSync(self.articlePath).ctime,
+            time: {
+                year: date.getFullYear().toString(),
+                month: (date.getMonth() + 1).toString(),
+                day: date.getDay().toString()
+            },
             name: path.basename(self.articlePath, '.md')
         };
     };
@@ -50,7 +55,6 @@ function ArticleParse(opt) {
 
 ArticleParse.prototype._read = function(size) {
     var self = this;
-    console.log(this.articlePath);
     var article_string = fs.readFileSync(this.articlePath, {encoding: 'utf8'});
     var re = /(\n----+)/;
     var article_exec = re.exec(article_string);
@@ -59,7 +63,6 @@ ArticleParse.prototype._read = function(size) {
     self.content = markdown.toHTML(article_string.slice(
             article_exec.index+article_exec[1].length, -1
     ));
-    console.log('push');
     self.push((JSON.stringify(self.getObj())));
     self.push(null);
 };

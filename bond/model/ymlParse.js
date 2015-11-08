@@ -2,6 +2,7 @@ var Readable = require('stream').Readable;
 var fs = require('fs');
 var util = require('util');
 var yaml = require('js-yaml');
+var path = require('path');
 
 util.inherits(YamlParse, Readable);
 
@@ -11,7 +12,11 @@ function YamlParse(opt) {
     
     Readable.call(this, {readableObjectMode: true});
     // Obj Stream
-    this.path = opt.ymlpath;
+    if (opt && opt.ymlpath !== undefined) {
+        this.path = opt.ymlpath;
+    } else {
+        this.path = path.resolve(__dirname, '../../views/blog.yml');
+    }
     this._ispush = false;
     var self = this;
 }

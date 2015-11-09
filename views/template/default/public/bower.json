@@ -1,0 +1,14 @@
+{
+  "name": "mdl-theme",
+  "homepage": "https://github.com/disoul/bond",
+  "authors": [
+    "disoul <starky_ds@sina.cn>"
+  ],
+  "description": "a theme use mdl",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "dependencies": {
+    "material-design-lite": "~1.0.6"
+  }
+}

@@ -1,9 +1,13 @@
 doctype html
 html
+  meta(name='viewport',content='width=device-width, initial-scale=1.0')
   head
+    link(src='./public/bower_components/material-design-lite/material.min.css')
     title #{name}
   body
     block head-block
       include ./model/head.jade
     block content-block
     block footer-block
+
+  script(src='./public/bower_components/material-design-lite/material.min.js')

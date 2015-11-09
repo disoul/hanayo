@@ -1,8 +1,22 @@
-.headblock
-  .avator
-    img(src="#{avator}")
-  .text
-    .name
-      p #{name}
-    .info
-      p #{info}
+header.mdl-layout__header.mdl-layout__header-scroll
+  .mdl-layout__header-row
+    span.mdl-layout-title #{title}
+    .mdl-layout-spatfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-rightl.mdl-textfield--align-right
+      label.md-button.mdl-js-button.mdl-button--icon(for='waterfall-exp')
+        i.material-icons Search
+      .mdl-textfield__expandable-holder
+        input.md-textfield__input(type="text",name="sample",id="waterfall-exp")
+
+  .mdl-layout__header-row
+    .mdl-layout-spacer
+    nav.mdl-navigation
+      a.mdl-navigation__link(href='') Home
+      a.mdl-navigation__link(href='') Archives
+      a.mdl-navigation__link(href='') AboutMe
+
+.mdl-layout__drawer
+  span.mdl-layout-title #{title}
+  nav.mdl-navigation
+    a.mdl-navigation__link(href='') Home
+    a.mdl-navigation__link(href='') Archives
+    a.mdl-navigation__link(href='') AboutMe

@@ -1,8 +1,7 @@
-.content
-  each article in articles
-    .article-block
-      a(href='archives/' + article.time.year + '/' + article.time.month + '/' + article.name + '.html') title !{article.title}
-      .tags
-        each tag in article.tag
-          p !{tag}
-      .article-content !{article.content}
+each article in articles
+  .article-block
+    a(href='archives/' + article.time.year + '/' + article.time.month + '/' + article.name + '.html') title !{article.title}
+    .tags
+      each tag in article.tag
+        p !{tag}
+    .article-content !{article.content}

@@ -9,6 +9,7 @@
   "moduleType": [],
   "license": "MIT",
   "dependencies": {
-    "material-design-lite": "~1.0.6"
+    "material-design-lite": "~1.0.6",
+    "material-design-icons": "~2.0.0"
   }
 }

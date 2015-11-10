@@ -1,7 +1,10 @@
 each article in articles
-  .article-block
-    a(href='archives/' + article.time.year + '/' + article.time.month + '/' + article.name + '.html') title !{article.title}
-    .tags
+  .article-block.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        a(href='archives/' + article.time.year + '/' + article.time.month + '/' + article.name + '.html') title !{article.title}
+    .tags.mdl-card__supporting-text
       each tag in article.tag
         p !{tag}
-    .article-content !{article.content}
+    .mdl-card__actions.mdl-card--border
+      a.mdl-button.mdl-button-icon.mdl-js-button.mdl-js-ripple-effect ReadMore

@@ -5,7 +5,7 @@ var gulp = require('gulp'),
 gulp.task('compass',function(){
 	gulp.src('./views/template/default/public/sass/index.scss')
 	.pipe(compass({
-		project: path.join(__dirname,'./public'),
+		project: path.join(__dirname,'./views/template/default/public'),
 		css: 'css',
 		sass: 'sass',
 		image: 'image'

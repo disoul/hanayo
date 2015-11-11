@@ -1,0 +1,17 @@
+@import "compass/css3";
+.mdl-layout_content {
+    background-color: palette(Grey,200);
+}
+
+.page-content {
+    #article-block {
+        max-width: 980px;
+        width: 100%;
+        margin: 40px auto 40px auto;
+        #readmore {
+            @include display-flex;
+            @include flex-direction(row);
+            @include justify-content(flex-end);
+        }
+    }
+}

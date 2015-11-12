@@ -1,7 +1,7 @@
 each article in articles
   #article-block.mdl-card.mdl-shadow--2dp
-    .mdl-card__title
+    .mdl-card__title(style=('background-image: url("#{article.picture}"); height: 250px'))
       h2.mdl-card__title-text title !{article.title}
-    .tags.mdl-card__supporting-text !{article.content}
+    .tags.mdl-card__supporting-text !{article.preview}
     .mdl-card__actions.mdl-card--border#readmore
       a(href='archives/' + article.time.year + '/' + article.time.month + '/' + article.name + '.html').mdl-button.mdl-button-icon.mdl-js-button.mdl-js-ripple-effect ReadMore

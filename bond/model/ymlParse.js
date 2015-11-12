@@ -23,16 +23,9 @@ function YamlParse(opt) {
 
 YamlParse.prototype._read = function(size) {
     var yml = yaml.safeLoad(fs.readFileSync(this.path, 'utf8'));
+    yml.flag = 'config';
     this.push(JSON.stringify(yml));
     this.push(null);
 };
 
 module.exports = YamlParse;
-
-/* test
-var yamlparse = new YamlParse({
-    ymlpath: '/home/disoul/Documents/webPoj/bond/views/blog.yml',
-});
-var out = fs.createWriteStream('out');
-yamlparse.pipe(out);
-*/

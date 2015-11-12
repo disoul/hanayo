@@ -1,6 +1,7 @@
 var ArticleParse = require('../model/parseArticle.js'),
        JadeParse = require('../model/jadeParse.js'),
        YamlParse = require('../model/ymlParse.js'),
+    previewParse = require('../model/previewParse.js'),
               fs = require('fs'),
           mkdirp = require('mkdirp'),
             path = require('path');
@@ -21,7 +22,8 @@ function CompileJade() {
                 var article = new ArticleParse({
                     articlePath: path.join(self.article_path, file)
                 });
-                article.pipe(self.jade);
+                new YamlParse().pipe(article)
+                    .pipe(new previewParse()).pipe(self.jade);
             });
         });
     };
@@ -42,8 +44,7 @@ function CompileJade() {
             var articleParse = new ArticleParse({
                 articlePath: self.article_path + '/' + article.name + '.md'
             });
-            new YamlParse().pipe(articleJade, {end: false});
-            articleParse.pipe(articleJade);
+            new YamlParse().pipe(articleParse).pipe(articleJade);
             articleJade.on('finish', function() {
                 mkdirp(path.join(
                     self.archivesDir, article.time.year, article.time.month),
@@ -59,24 +60,22 @@ function CompileJade() {
                 );
             });
         });
-    };
-
+    }; 
     this.jade = new JadeParse({
             objectMode: true,
             jadePage: 'index.jade'
         });
 
     this.build = function(opt) {
-        var yaml = new YamlParse(),
-            html = fs.createWriteStream(path.resolve(
+        var html = fs.createWriteStream(path.resolve(
                 __dirname, '../../views/template/default/index.html'));
 
         this.jade.on('finish', function() {
             self.jade.pipe(html);
+            console.log(self.jade.obj);
             self.compileArticles(self.jade.obj);
         });
 
-        yaml.pipe(this.jade, {end: false});
         this.getArticles();
     };
 }

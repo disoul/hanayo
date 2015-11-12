@@ -1,28 +1,29 @@
 var markdown = require('markdown').markdown;
-var Readable = require('stream').Readable;
+var Transform = require('stream').Transform;
 var fs = require('fs');
 var util = require('util');
 var path = require('path');
 
-util.inherits(ArticleParse, Readable);
+util.inherits(ArticleParse, Transform);
 
 function ArticleParse(opt) {
     if (!(this instanceof ArticleParse))
         return new ArticleParse(opt);
 
-    Readable.call(this, opt);
+    Transform.call(this, opt);
     var self = this;
     this._readableState.objectMode = true;
     this.title = '';
     this.tags = [];
     this.author = '';
+    this.picture = '';
     this.content = '';
 
     this.articlePath = opt.articlePath;
 
     this.headParse = function(str) {
         var re = /title: *(\S*)\n/;
-        var title,tags,author;
+        var title,tags,author,picture;
         if ((title = re.exec(str)) !== null) {
             self.title = title[1];
         }
@@ -36,13 +37,18 @@ function ArticleParse(opt) {
         if ((author = re.exec(str)) !== null){
             self.author = author[1];
         }
+        re = /picture: *(\S*)\n/;
+        if ((picture = re.exec(str)) !== null){
+            self.picture = picture[1];
+        }
     };
 
     this.getObj = function() {
         var date = fs.statSync(self.articlePath).ctime;
         return {
             flag: 'article', title: self.title, tag: self.tags,
-            author: self.author, content: self.content,
+            author: self.author, content: self.content, 
+            picture: self.picture,
             time: {
                 year: date.getFullYear().toString(),
                 month: (date.getMonth() + 1).toString(),
@@ -53,7 +59,8 @@ function ArticleParse(opt) {
     };
 }
 
-ArticleParse.prototype._read = function(size) {
+ArticleParse.prototype._transform = function(chunk, encode, callback) {
+    this.push(chunk); // push upstream
     var self = this;
     var article_string = fs.readFileSync(this.articlePath, {encoding: 'utf8'});
     var re = /(\n----+)/;

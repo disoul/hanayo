@@ -7,25 +7,25 @@ var path = require('path');
 util.inherits(YamlParse, Readable);
 
 function YamlParse(opt) {
-    if (!(this instanceof YamlParse))
-        return new YamlParse(opt);
-    
-    Readable.call(this, {readableObjectMode: true});
-    // Obj Stream
-    if (opt && opt.ymlpath !== undefined) {
-        this.path = opt.ymlpath;
-    } else {
-        this.path = path.resolve(__dirname, '../../views/blog.yml');
-    }
-    this._ispush = false;
-    var self = this;
+  if (!(this instanceof YamlParse))
+    return new YamlParse(opt);
+
+  Readable.call(this, {readableObjectMode: true});
+  // Obj Stream
+  if (opt && opt.ymlpath !== undefined) {
+    this.path = opt.ymlpath;
+  } else {
+    this.path = path.resolve(__dirname, '../../views/blog.yml');
+  }
+  this._ispush = false;
+  var self = this;
 }
 
 YamlParse.prototype._read = function(size) {
-    var yml = yaml.safeLoad(fs.readFileSync(this.path, 'utf8'));
-    yml.flag = 'config';
-    this.push(JSON.stringify(yml));
-    this.push(null);
+  var yml = yaml.safeLoad(fs.readFileSync(this.path, 'utf8'));
+  yml.flag = 'config';
+  this.push(JSON.stringify(yml));
+  this.push(null);
 };
 
 module.exports = YamlParse;

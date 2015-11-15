@@ -1,25 +1,25 @@
 {
-  "name": "bond",
+  "name": "hanayo",
   "version": "0.0.1",
   "description": "static blog generator by node",
   "main": " ",
   "bin": {
-    "bond": "./bond/cli/bond-cli.js"
+    "hanayo": "./hanayo/cli/hanayo-cli.js"
   },
   "scripts": {
     "test": " "
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/disoul/bond.git"
+    "url": "git+https://github.com/disoul/hanayo.git"
   },
   "keywords": [],
   "author": "disoul",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/disoul/bond/issues"
+    "url": "https://github.com/disoul/hanayo/issues"
   },
-  "homepage": "https://github.com/disoul/bond#readme",
+  "homepage": "https://github.com/disoul/hanayo#readme",
   "devDependencies": {
     "commander": "^2.9.0",
     "domutils": "^1.5.1",

@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="/public/bower_components/material-design-lite/material.css" rel="stylesheet"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link href="/public/css/index.css" rel="stylesheet"><title>My Blog</title></head><body><div class="mdl-layout mdl-js-layout"><header class="mdl-layout__header mdl-layout__header--waterfall"><div class="mdl-layout__header-row"><span class="mdl-layout-title">My Blog</span><div class="mdl-layout-spacer"></div><div class="mdl-layout-spatfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-rightl mdl-textfield--align-right"><label for="waterfall-exp" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">search</i></label><div class="mdl-textfield__expandable-holder"><input type="text" name="sample" id="waterfall-exp" class="mdl-textfield__input"></div></div></div><div class="mdl-layout__header-row"><div class="mdl-layout-spacer"></div><nav class="mdl-navigation"><a href="" class="mdl-navigation__link">Home</a><a href="" class="mdl-navigation__link">Archives</a><a href="" class="mdl-navigation__link">AboutMe</a></nav></div></header><div class="mdl-layout__drawer"><span class="mdl-layout-title">My Blog</span><nav class="mdl-navigation"><a href="" class="mdl-navigation__link">Home</a><a href="" class="mdl-navigation__link">Archives</a><a href="" class="mdl-navigation__link">AboutMe</a></nav></div><main id="main" class="mdl-layout__content"><div class="page-content"><div id="article-block"><h2 class="title">Css规则的优先级</h2><div class="tags"></div><div class="article-content"><p>今天写css踩了一波坑，于是记录下css的优先级规则  </p>
+
+<h1>样式的优先级</h1>
+
+<p>也就是css写在哪里优先级比较高 <br/>其中按照下表排序  </p>
+
+<ul><li>内联样式最高，也就是写在标签的style里的样式</li><li>内部样式和外联样式谁后出现谁优先级高</li></ul>
+
+<p>也就是如果</p>
+
+<p><code></code>`html
+&lt;style&gt;
+...
+&lt;/style&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;233.css&quot;/&gt; 
+&lt;!-- 此时外联样式覆盖内部样式 --&gt;</p>
+
+<p><code></code>`
+@@</p>
+
+<h1>选择器的优先级</h1>
+
+<p>主要就是踩在这里了。。。 <br/>对于css，选择器有<code>权值</code>一说   </p>
+
+<ul><li>内联样式，  权值1000</li><li>id选择器，  权值100</li><li>类选择器，  权值10</li><li>元素选择器，权值1</li></ul>
+
+<p>对于同一个元素如果有不同的选择器选中它  <br/>生效的只有<code>权值最大</code>的那个选择器下的规则
+如果权值相同，则按照后出现的规则覆盖前一个规则<br/>如 </p>
+
+<p><code></code>`scss</p>
+
+<h1>main-scene .left-list {</h1>
+
+<p>  .... //权值为 100 + 10 = 110
+}</p>
+
+<h1>mask {</h1>
+
+<p>  .... //权值为 100
+}
+<code></code>`</p>
+
+<p>所以如果对于元素<code>&lt;div id=&quot;main-scene&quot;&gt;&lt;div class=&quot;left-list&quot; id=&quot;mask&quot;&gt;&lt;/div&gt;&lt;/div&gt;</code> <br/>生效的只有第一个选择器   </p></div></div></div><footer class="mdl-mini-footer"><div class="mdl-mini-footer__left-section"><div class="mdl-logo"> 
+My Blog <i class="material-icons">person</i> Disoul</div></div></footer></main></div></body></html><script src="/public/bower_components/material-design-lite/material.min.js"></script>

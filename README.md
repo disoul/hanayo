@@ -10,9 +10,13 @@ git clone https://github.com/disoul/hanayo && cd hanayo
 npm install hanayo -g
 npm install
 ```
-## Start
-start server
+## Build static files
 
 ```shell
-hanayo -s start
+hanayo build
+```
+## Start server
+
+```shell
+hanayo server
 ```

@@ -72,7 +72,6 @@ function CompileJade() {
 
     this.jade.on('finish', function() {
       self.jade.pipe(html);
-      console.log(self.jade.obj);
       self.compileArticles(self.jade.obj);
     });
 

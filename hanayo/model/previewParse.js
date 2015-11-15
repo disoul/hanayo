@@ -48,8 +48,6 @@ PreviewParse.prototype._transform = function(chunk, encode, callback) {
   if (this.isPreview === true) {
     this.getPreview(chunkObj.content, function(pre) {
     chunkObj.preview = pre;
-    console.log(chunkObj);
-    console.log('complete');
     self.push(JSON.stringify(chunkObj));
     callback();
     });

@@ -68,6 +68,7 @@ JadeParse.prototype._read = function(size) {
   var jadefn = jade.compileFile(this.jadePath + '/' + this.jadePage,{
     cache: true,
   });
+  console.log(this.obj);
   this.push(jadefn(this.obj));
   this.push(null);
 };

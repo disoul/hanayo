@@ -70,12 +70,15 @@ function CompileJade() {
     var html = fs.createWriteStream(path.resolve(
         __dirname, '../../views/template/default/index.html'));
 
+    /*
     this.jade.on('finish', function() {
       self.jade.pipe(html);
       self.compileArticles(self.jade.obj);
     });
 
     this.getArticles();
+   */
+    new YamlParse().pipe(new ArticleParse()).pipe(self.jade).pipe(html);
   };
 }
 

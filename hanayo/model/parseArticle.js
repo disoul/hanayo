@@ -48,7 +48,7 @@ function ArticleParse(opt) {
     return obj;
   };
 
-  this.pushObj = function(obj) {
+  this.pushObj = function(obj, article_path) {
     var date = fs.statSync(self.articlePath).ctime;
     this.push(JSON.stringify({
       flag: 'article', title: obj.title, tag: obj.tags,
@@ -59,7 +59,7 @@ function ArticleParse(opt) {
         month: (date.getMonth() + 1).toString(),
         day: date.getDay().toString()
       },
-      name: path.basename(obj.articlePath, '.md')
+      name: path.basename(article_path, '.md')
     }));
   };
 
@@ -72,7 +72,7 @@ function ArticleParse(opt) {
     articleObj.content = markdown.toHTML(article_string.slice(
         article_exec.index+article_exec[1].length, -1
     ));
-    this.pushObj(articleObj);
+    this.pushObj(articleObj,article);
   };
 }
 

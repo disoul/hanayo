@@ -17,5 +17,5 @@ Session.vim
 *.swp
 
 # Other
-article/
+article/*
 *.html

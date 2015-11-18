@@ -10,15 +10,8 @@ function JadeParse(opt) {
   if (!(this instanceof JadeParse))
     return new JadeParse(opt);
 
-  Duplex.call(this, opt);
+  Duplex.call(this, {objectMode: true});
   var self = this;
-  if (opt && opt.jadePath !== undefined) {
-    this.jadePath = opt.jadePath;
-  }else {
-    this.jadePath = path.resolve(
-      __dirname, '../../views/template/default/pages');
-  }
-  this.jadePage = opt.jadePage;
   this.obj = {};
   this.articles = {};
   this.mergeObj = function(obj) {
@@ -65,11 +58,7 @@ JadeParse.prototype._write = function(chunk, encode, callback) {
 };
 
 JadeParse.prototype._read = function(size) {
-  var jadefn = jade.compileFile(this.jadePath + '/' + this.jadePage,{
-    cache: true,
-  });
-  console.log(this.obj);
-  this.push(jadefn(this.obj));
+  this.push(JSON.stringify(this.obj));
   this.push(null);
 };
 

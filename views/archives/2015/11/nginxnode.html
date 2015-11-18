@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="/public/bower_components/material-design-lite/material.css" rel="stylesheet"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link href="/public/css/index.css" rel="stylesheet"><title>My Blog</title></head><body><div class="mdl-layout mdl-js-layout"><header class="mdl-layout__header mdl-layout__header--waterfall"><div class="mdl-layout__header-row"><span class="mdl-layout-title">My Blog</span><div class="mdl-layout-spacer"></div><div class="mdl-layout-spatfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-rightl mdl-textfield--align-right"><label for="waterfall-exp" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">search</i></label><div class="mdl-textfield__expandable-holder"><input type="text" name="sample" id="waterfall-exp" class="mdl-textfield__input"></div></div></div><div class="mdl-layout__header-row"><div class="mdl-layout-spacer"></div><nav class="mdl-navigation"><a href="" class="mdl-navigation__link">Home</a><a href="" class="mdl-navigation__link">Archives</a><a href="" class="mdl-navigation__link">AboutMe</a></nav></div></header><div class="mdl-layout__drawer"><span class="mdl-layout-title">My Blog</span><nav class="mdl-navigation"><a href="" class="mdl-navigation__link">Home</a><a href="" class="mdl-navigation__link">Archives</a><a href="" class="mdl-navigation__link">AboutMe</a></nav></div><main id="main" class="mdl-layout__content"><div class="page-content"><div id="article-block"><h2 class="title">使用Nginx实现Node反向代理</h2><div class="tags"></div><div class="article-content"><p>最近为了学node写了一个node的项目,部署到服务器上时使用了这个方法，在此做下记录    </p>
+
+<h1>反向代理</h1>
+
+<p>所谓反向代理，简单理解就是，我的<code>node</code>跑在8080端口，而nginx监听的是80端口 <br/>使用反向代理后，当向80端口发送请求后，nginx会将这个请求转发给8080端口<br/>同时将<code>response</code>也返回
+@@</p>
+
+<h1>nginx配置</h1>
+
+<p><code>nginx</code>这个命令倒没多少选项，大多数都是配置文件所控制<br/><code>nginx -t</code> 测试但不运行自己的配置文件，同时也会输出自己配置文件的位置<br/>比如我<code>/etc/nginx/nginx.conf</code><br/>那么下面  </p>
+
+<p><code>shell
+cd /etc/nginx/sites-enable/
+vim node_nginx.conf
+</code>
+直接贴上我的配置文件</p>
+
+<p><code>config
+upstream nodejs{
+        server 127.0.0.1:3000;
+        #server 127.0.0.1:3001;
+        keepalive 64;
+}
+server {
+        listen 80;
+        server_name www.moive.me moive.me;
+        access_log /var/log/nginx/moiveme.log;
+        location / {
+                proxy_set_header   X-Real-IP            $remote_addr;
+                proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+                proxy_set_header   Host                   $http_host;
+                proxy_set_header   X-NginX-Proxy    true;
+                proxy_set_header   Connection &quot;&quot;;
+                proxy_http_version 1.1;
+                proxy_pass         http://nodejs;
+                root ...;
+                index ...;
+        }
+}
+</code>
+很容易可以看出，上游接受来自node8080端口的信息并且将80<code>proxy_pass</code>到上游 <br/>然后重启nginx服务<code>sudo /etc/init.d/nginx restart</code>  <br/>运行node服务监听8080端口 <br/>还有一点，在服务器端需要使用forever命令来守护node进程 <br/><code>npm install forever -g</code> <br/><code>forever xxx.js</code></p></div></div></div><footer class="mdl-mini-footer"><div class="mdl-mini-footer__left-section"><div class="mdl-logo"> 
+My Blog <i class="material-icons">person</i> Disoul</div></div></footer></main></div></body></html><script src="/public/bower_components/material-design-lite/material.min.js"></script>

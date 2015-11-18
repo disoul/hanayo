@@ -61,11 +61,9 @@ function ArticleParse(opt) {
       },
       name: path.basename(obj.articlePath, '.md')
     }));
-    console.log('push');
   };
 
   this.readArticle = function(article) {
-    console.log('read',article);
     var article_string = fs.readFileSync(article, {encoding: 'utf8'});
     var re = /(\n----+)/;
     var article_exec = re.exec(article_string);
@@ -81,14 +79,11 @@ function ArticleParse(opt) {
 ArticleParse.prototype._transform = function(chunk, encode, callback) {
   this.push(chunk); // push upstream
   var self = this;
-  console.log(this.articlePath);
 
   var files = fs.readdirSync(this.articlePath);
-  console.log(files);
   for (var index in files) {
       self.readArticle(path.join(this.articlePath, files[index]));
     }
-    console.log('push null');
     self.push(null);
 
 };

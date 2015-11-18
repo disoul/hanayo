@@ -2,6 +2,7 @@ var ArticleParse = require('../model/parseArticle.js'),
      JadeParse = require('../model/jadeParse.js'),
      YamlParse = require('../model/ymlParse.js'),
   previewParse = require('../model/previewParse.js'),
+     DestParse = require('../model/dest.js'),
         fs = require('fs'),
       mkdirp = require('mkdirp'),
       path = require('path');
@@ -61,10 +62,7 @@ function CompileJade() {
       });
     });
   };
-  this.jade = new JadeParse({
-      objectMode: true,
-      jadePage: 'index.jade'
-    });
+  this.jade = new JadeParse();
 
   this.build = function(opt) {
     var html = fs.createWriteStream(path.resolve(
@@ -78,7 +76,7 @@ function CompileJade() {
 
     this.getArticles();
    */
-    new YamlParse().pipe(new ArticleParse()).pipe(self.jade).pipe(html);
+    YamlParse().pipe(ArticleParse()).pipe(JadeParse()).pipe(DestParse());
   };
 }
 

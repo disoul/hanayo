@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="/public/bower_components/material-design-lite/material.css" rel="stylesheet"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link href="/public/css/index.css" rel="stylesheet"><title>My Blog</title></head><body><div class="mdl-layout mdl-js-layout"><header class="mdl-layout__header mdl-layout__header--waterfall"><div class="mdl-layout__header-row"><span class="mdl-layout-title">My Blog</span><div class="mdl-layout-spacer"></div><div class="mdl-layout-spatfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-rightl mdl-textfield--align-right"><label for="waterfall-exp" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">search</i></label><div class="mdl-textfield__expandable-holder"><input type="text" name="sample" id="waterfall-exp" class="mdl-textfield__input"></div></div></div><div class="mdl-layout__header-row"><div class="mdl-layout-spacer"></div><nav class="mdl-navigation"><a href="" class="mdl-navigation__link">Home</a><a href="" class="mdl-navigation__link">Archives</a><a href="" class="mdl-navigation__link">AboutMe</a></nav></div></header><div class="mdl-layout__drawer"><span class="mdl-layout-title">My Blog</span><nav class="mdl-navigation"><a href="" class="mdl-navigation__link">Home</a><a href="" class="mdl-navigation__link">Archives</a><a href="" class="mdl-navigation__link">AboutMe</a></nav></div><main id="main" class="mdl-layout__content"><div class="page-content"><div id="article-block"><h2 class="title">移动端web开发使用Transiton代替Animate</h2><div class="tags"></div><div class="article-content"><p>最近试着做了一波移动端app，众所周知，移动端开发最大的问题就是性能问题 <br/>如何做出流畅的动画在移动端成了一个问题   </p>
+
+<h1>平时web端的动画使用姿势</h1>
+
+<p>如果是jquery的话</p>
+
+<p><code>js
+$(...).animate({top: -10px},&quot;slow&quot;);
+$(...).animate({top: +10px},&quot;slow&quot;,callback);
+...
+</code>
+实际验证这种方法在桌面端方便使用 <br/>然而移动端性能雪崩<br/>使用<code>animate</code>，实际上就是在设置的时间内逐渐修改css属性（逐渐变大变小等） <br/>这将会导致页面在<code>animate</code>时几乎每一帧都会重新布局，gg <br/>@@</p>
+
+<h1>Transition的动画姿势</h1>
+
+<p>那么我最后使用<code>transition</code>来替代<code>animate</code>实现效果</p>
+
+<h2>什么是Transition</h2>
+
+<p>这是一个css3的新属性，用来控制css过渡 <br/>贴上MDN的介绍链接,&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/transition&quot;&gt;Transition&lt;/a&gt;    </p>
+
+<h2>为什么使用Transition</h2>
+
+<p>毕竟使用transition就是纯css实现了，相当于把过渡交给了浏览器来实现（而不是js） <br/>效率上我使用起来感觉比<code>animate</code>明显要高 <br/>在兼容性考虑上，目前大多数移动端设备都是支持的transition的<br/>于是为何不用  </p>
+
+<h2>Callback</h2>
+
+<p>同样，<code>transition</code>和<code>animate</code>一样也可以实现动画完成回调 <br/>依赖的是一个事件 <code>ontransitionend</code>（然而事件的名字在不同浏览器下略有不同） <br/><code>ontransitionend</code>将在被绑定元素<code>每次</code>完成<code>transition</code>后执行 <br/>具体实现代码如下  </p>
+
+<p><code></code>`js
+var el = ... </p>
+
+<p>var onTransitionEnd = function ( e ){ alert( &#39;TRANSITION FINISHED&#39; );}
+  , eventName       = document.body.style.webkitBorderRadius?
+                        &quot;webkitTransitionEnd&quot;:
+                        &quot;transitionend&quot;
+  ;
+el.addEventListener( eventName, onTransitionEnd, false );</p>
+
+<p><code></code>`</p>
+
+<p>睡觉..</p></div></div></div><footer class="mdl-mini-footer"><div class="mdl-mini-footer__left-section"><div class="mdl-logo"> 
+My Blog <i class="material-icons">person</i> Disoul</div></div></footer></main></div></body></html><script src="/public/bower_components/material-design-lite/material.min.js"></script>

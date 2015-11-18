@@ -14,7 +14,7 @@ function DestStream(opt) {
   var self = this;
   this.obj = {};
   this.archivePath = path.resolve(
-    __dirname, '../../views/template/default/archives');
+    __dirname, '../../views/archives');
 }
 
 DestStream.prototype._write = function(chunk, encoding, callback) {

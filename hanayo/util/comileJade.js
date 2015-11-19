@@ -76,7 +76,7 @@ function CompileJade() {
 
     this.getArticles();
    */
-    YamlParse().pipe(ArticleParse()).pipe(JadeParse()).pipe(DestParse());
+    YamlParse().pipe(ArticleParse()).pipe(previewParse()).pipe(JadeParse()).pipe(DestParse());
   };
 }
 

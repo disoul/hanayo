@@ -19,6 +19,7 @@ function DestStream(opt) {
     __dirname, '../../views/archives');
   this.articlePath = path.resolve(__dirname, '../../views/article');
   this.jadePath = path.resolve(__dirname, '../../views/template/default/pages');
+  this.homePath = path.resolve(__dirname, '../../views');
 
   this.getArticleObj = function(globalObj, articleObj){
     globalObj.article = articleObj;
@@ -41,9 +42,29 @@ function DestStream(opt) {
 
 DestStream.prototype._write = function(chunk, encoding, callback) {
   this.obj = JSON.parse(chunk);
+  this.homepage(this.obj); // write home page
   this.archive_article(this.obj); // write archives articles
 //  console.log(this.obj);
   
+};
+
+
+DestStream.prototype.homepage = function(obj) {
+  var self = this;
+  var jadefn = jade.compileFile(
+    path.join(self.jadePath, 'index.jade'),
+    {cache: true}
+  );
+
+  fs.writeFile(
+    path.join(self.homePath, 'index.html'),
+    jadefn(obj),
+    function (err) {
+      if (err) throw err;
+      console.log('write home');
+    }
+  );
+
 };
 
 
@@ -101,7 +122,23 @@ DestStream.prototype.archive_list = function() {
   );
 
   this.archiveListObj.dateList.map(function(date) {
-    
+    var list = [];
+    fs.readdirSync(path.join(self.archivePath, date))
+      .map(function(ele) {
+        if (ele == 'index.html') return;
+        list.push({ 
+          name: path.basename(ele, '.html'), 
+          link: path.join('archives', date, ele)
+        });
+      });
+    fs.writeFile(
+      path.join(self.archivePath, date, 'index.html'),
+      jadefn(self.getListObj(self.obj, list)),
+      function(err) {
+        if (err) throw err;
+        console.log('write', date, 'archive');
+      }
+    );
   });
 };
 

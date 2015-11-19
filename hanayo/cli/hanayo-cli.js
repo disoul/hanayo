@@ -25,6 +25,9 @@ if (typeof cmdValue === 'undefined') {
     case 'server':
       server();
       break;
+    case 'init':
+      init();
+      break;
   }
 }
 
@@ -44,4 +47,10 @@ function server() {
       }
       console.log('Bye');
   }).stdout.pipe(process.stdout);
+}
+
+function init() {
+  console.log('filename', __filename);
+  console.log('dirname', __dirname);
+  console.log('cwd', process.cwd());
 }

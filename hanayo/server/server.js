@@ -2,13 +2,15 @@ var express = require('express'),
      path = require('path');
 var app = express();
 
-app.use(express.static(path.resolve(
+app.use('/static', express.static(path.resolve(
   __dirname, '../../views/template/default/')));
+app.use('/archives', express.static(path.resolve(
+  __dirname, '../../views/archives')));
 
 var options = {
-  root: path.resolve(__dirname, '../../views/template/default/'),
+  root: path.resolve(__dirname, '../../views'),
   headers: {
-    'Content-Type': 'text/plain'
+    'Content-Type': 'text/html'
   }
 };
 
@@ -21,7 +23,7 @@ app.get('/', function(req, res) {
   });
 });
 
-var server = app.listen(3000, function() {
+var server = app.listen(8000, function() {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Hanayo listening at http://%s:%s', host, port);

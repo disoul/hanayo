@@ -103,7 +103,7 @@ DestStream.prototype.archive_list = function() {
   var archiveObj =  this.getListObj(
     this.obj, 
     this.archiveListObj.dateList.map(function(ele) {
-      return {name: ele, link: 'archives/' + ele + '/' + 'index.html'};
+      return {name: ele, link: '/archives/' + ele + '/' + 'index.html'};
     }) 
   );
 
@@ -128,7 +128,7 @@ DestStream.prototype.archive_list = function() {
         if (ele == 'index.html') return;
         list.push({ 
           name: path.basename(ele, '.html'), 
-          link: path.join('archives', date, ele)
+          link: path.join('/archives', date, ele)
         });
       });
     fs.writeFile(

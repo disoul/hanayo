@@ -44,7 +44,6 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
   this.obj = JSON.parse(chunk);
   this.homepage(this.obj); // write home page
   this.archive_article(this.obj); // write archives articles
-//  console.log(this.obj);
   
 };
 
@@ -61,7 +60,6 @@ DestStream.prototype.homepage = function(obj) {
     jadefn(obj),
     function (err) {
       if (err) throw err;
-      console.log('write home');
     }
   );
 
@@ -86,7 +84,6 @@ DestStream.prototype.archive_article = function(obj) {
           jadefn(self.getArticleObj(obj, article)),
           function (err) {
             if (err) throw err;
-            console.log('write file', article.name);
 
             if (index == articles.length - 1) {
               self.archive_list();
@@ -107,7 +104,6 @@ DestStream.prototype.archive_list = function() {
     }) 
   );
 
-  console.log(archiveObj);
   var jadefn = jade.compileFile(
     path.join(self.jadePath, 'archive.jade'),
     { cache: true }
@@ -117,7 +113,6 @@ DestStream.prototype.archive_list = function() {
     jadefn(archiveObj),
     function(err) {
       if (err) throw err;
-      console.log('write archive');
     }
   );
 
@@ -136,7 +131,6 @@ DestStream.prototype.archive_list = function() {
       jadefn(self.getListObj(self.obj, list)),
       function(err) {
         if (err) throw err;
-        console.log('write', date, 'archive');
       }
     );
   });

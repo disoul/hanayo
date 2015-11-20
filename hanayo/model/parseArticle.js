@@ -19,7 +19,7 @@ function ArticleParse(opt) {
   this.picture = '';
   this.content = '';
 
-  this.articlePath = path.resolve(__dirname, '../../article');
+  this.articlePath = path.resolve(process.cwd(), './article');
 
   this.headParse = function(str) {
     var re = /title: *(\S*)\n/;

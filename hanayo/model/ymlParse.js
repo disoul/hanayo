@@ -15,7 +15,7 @@ function YamlParse(opt) {
   if (opt && opt.ymlpath !== undefined) {
     this.path = opt.ymlpath;
   } else {
-    this.path = path.resolve(__dirname, '../../blog.yml');
+    this.path = path.resolve(process.cwd(), './blog.yml');
   }
   this._ispush = false;
   var self = this;

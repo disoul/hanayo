@@ -41,7 +41,7 @@ function build() {
 
 function server() {
   console.log('start server...');
-  Childprocess.exec('node server.js', {
+  Childprocess.exec('node server.js ' + process.cwd(), {
     cwd: path.resolve(__dirname, '../server/')},
     function(error, stdout, stderr) {
       if (error !== null) {

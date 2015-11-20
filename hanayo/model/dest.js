@@ -16,10 +16,10 @@ function DestStream(opt) {
   this.obj = {};
   this.archiveListObj = { dateList: [] };
   this.archivePath = path.resolve(
-    __dirname, '../../views/archives');
-  this.articlePath = path.resolve(__dirname, '../../views/article');
-  this.jadePath = path.resolve(__dirname, '../../views/template/default/pages');
-  this.homePath = path.resolve(__dirname, '../../views');
+    process.cwd(), './views/archives');
+  this.articlePath = path.resolve(process.cwd(), './article');
+  this.jadePath = path.resolve(process.cwd(), './views/template/default/pages');
+  this.homePath = path.resolve(process.cwd(), './views');
 
   this.getArticleObj = function(globalObj, articleObj){
     globalObj.article = articleObj;

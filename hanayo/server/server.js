@@ -3,12 +3,12 @@ var express = require('express'),
 var app = express();
 
 app.use('/static', express.static(path.resolve(
-  __dirname, '../../views/template/default/')));
+  process.argv[2], './views/template/default/')));
 app.use('/archives', express.static(path.resolve(
-  __dirname, '../../views/archives')));
+  process.argv[2], './views/archives')));
 
 var options = {
-  root: path.resolve(__dirname, '../../views'),
+  root: path.resolve(process.argv[2], './views'),
   headers: {
     'Content-Type': 'text/html'
   }
@@ -17,8 +17,8 @@ var options = {
 app.get('/', function(req, res) {
   res.sendFile('index.html', options, function(err) {
     if (err){
-      console.error(err);
       res.status(err.status).end();
+      throw err;
     }
   });
 });

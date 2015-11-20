@@ -1,6 +1,6 @@
 {
   "name": "hanayo",
-  "version": "0.5.1",
+  "version": "0.5.4",
   "description": "static blog generator by node",
   "main": " ",
   "bin": {
@@ -20,7 +20,7 @@
     "url": "https://github.com/disoul/hanayo/issues"
   },
   "homepage": "https://github.com/disoul/hanayo#readme",
-  "devDependencies": {
+  "dependencies": {
     "commander": "^2.9.0",
     "domutils": "^1.5.1",
     "express": "^4.13.3",

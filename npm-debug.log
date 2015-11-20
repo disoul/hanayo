@@ -1,0 +1,107 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/disoul/Public/node-v4.2.1-linux-x64/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'publish' ]
+2 info using npm@2.14.7
+3 info using node@v4.2.1
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/disoul/Documents/webpoj/hanayo',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /home/disoul/.npm/hanayo/0.5.3/package.tgz not in flight; packing
+9 verbose tar pack [ '/home/disoul/.npm/hanayo/0.5.3/package.tgz',
+9 verbose tar pack   '/home/disoul/Documents/webpoj/hanayo' ]
+10 verbose tarball /home/disoul/.npm/hanayo/0.5.3/package.tgz
+11 verbose folder /home/disoul/Documents/webpoj/hanayo
+12 info prepublish hanayo@0.5.3
+13 verbose addLocalTarball adding from inside cache /home/disoul/.npm/hanayo/0.5.3/package.tgz
+14 silly cache afterAdd hanayo@0.5.3
+15 verbose afterAdd /home/disoul/.npm/hanayo/0.5.3/package/package.json not in flight; writing
+16 verbose afterAdd /home/disoul/.npm/hanayo/0.5.3/package/package.json written
+17 silly publish { name: 'hanayo',
+17 silly publish   version: '0.5.3',
+17 silly publish   description: 'static blog generator by node',
+17 silly publish   main: ' ',
+17 silly publish   bin: { hanayo: './hanayo/cli/hanayo-cli.js' },
+17 silly publish   scripts: { test: ' ' },
+17 silly publish   repository: { type: 'git', url: 'git+https://github.com/disoul/hanayo.git' },
+17 silly publish   keywords: [],
+17 silly publish   author: { name: 'disoul' },
+17 silly publish   license: 'ISC',
+17 silly publish   bugs: { url: 'https://github.com/disoul/hanayo/issues' },
+17 silly publish   homepage: 'https://github.com/disoul/hanayo#readme',
+17 silly publish   dependencies:
+17 silly publish    { commander: '^2.9.0',
+17 silly publish      domutils: '^1.5.1',
+17 silly publish      express: '^4.13.3',
+17 silly publish      gulp: '^3.9.0',
+17 silly publish      'gulp-compass': '^2.1.0',
+17 silly publish      htmlparser2: '^3.8.3',
+17 silly publish      jade: '^1.11.0',
+17 silly publish      'js-yaml': '^3.4.3',
+17 silly publish      markdown: '^0.5.0',
+17 silly publish      mkdirp: '^0.5.1',
+17 silly publish      ncp: '^2.0.0',
+17 silly publish      soupselect: '^0.2.0' },
+17 silly publish   readme: '# Hanayo(Underdeveloped)\n基于node的一个静态博客站点生成器\nA static blog generator writed by Node.js\n# Usage\n\n## Install\n\n```shell\nnpm install hanayo -g\n```\n## Init proj\n\n```shell\nhanayo init\n```\n## Build files\n\n```shell\nhanayo build\n```\n\n## Start server\n\n```shell\nhanayo server\n```\n\nthen open http://127.0.0.1:8000\n',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: 'c5aef7280b9b7150946598268764a7c9a9321e5e',
+17 silly publish   _id: 'hanayo@0.5.3',
+17 silly publish   _shasum: 'a0afb0a8eb086fef16a63fbd5e3b2d9b843829ec',
+17 silly publish   _from: '.' }
+18 verbose getPublishConfig undefined
+19 silly mapToRegistry name hanayo
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry uri https://registry.npmjs.org/hanayo
+23 verbose publish registryBase https://registry.npmjs.org/
+24 silly publish uploading /home/disoul/.npm/hanayo/0.5.3/package.tgz
+25 verbose request uri https://registry.npmjs.org/hanayo
+26 verbose request sending authorization for write operation
+27 info attempt registry request try #1 at 12:46:35 PM
+28 verbose request using bearer token for auth
+29 verbose request id 6ce4b35603a6be28
+30 http request PUT https://registry.npmjs.org/hanayo
+31 http 403 https://registry.npmjs.org/hanayo
+32 verbose headers { 'content-type': 'application/json',
+32 verbose headers   'cache-control': 'max-age=60',
+32 verbose headers   'content-length': '95',
+32 verbose headers   'accept-ranges': 'bytes',
+32 verbose headers   date: 'Fri, 20 Nov 2015 04:45:29 GMT',
+32 verbose headers   via: '1.1 varnish',
+32 verbose headers   connection: 'keep-alive',
+32 verbose headers   'x-served-by': 'cache-nrt6134-NRT',
+32 verbose headers   'x-cache': 'MISS',
+32 verbose headers   'x-cache-hits': '0',
+32 verbose headers   'x-timer': 'S1447994728.172889,VS0,VE1011' }
+33 verbose request invalidating /home/disoul/.npm/registry.npmjs.org/hanayo on PUT
+34 error publish Failed PUT 403
+35 verbose stack Error: "You cannot publish over the previously published version 0.5.3." : hanayo
+35 verbose stack     at makeError (/home/disoul/Public/node-v4.2.1-linux-x64/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+35 verbose stack     at CachingRegistryClient.<anonymous> (/home/disoul/Public/node-v4.2.1-linux-x64/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+35 verbose stack     at Request._callback (/home/disoul/Public/node-v4.2.1-linux-x64/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+35 verbose stack     at Request.self.callback (/home/disoul/Public/node-v4.2.1-linux-x64/lib/node_modules/npm/node_modules/request/request.js:198:22)
+35 verbose stack     at emitTwo (events.js:87:13)
+35 verbose stack     at Request.emit (events.js:172:7)
+35 verbose stack     at Request.<anonymous> (/home/disoul/Public/node-v4.2.1-linux-x64/lib/node_modules/npm/node_modules/request/request.js:1063:14)
+35 verbose stack     at emitOne (events.js:82:20)
+35 verbose stack     at Request.emit (events.js:169:7)
+35 verbose stack     at IncomingMessage.<anonymous> (/home/disoul/Public/node-v4.2.1-linux-x64/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+36 verbose statusCode 403
+37 verbose pkgid hanayo
+38 verbose cwd /home/disoul/Documents/webpoj/hanayo
+39 error Linux 4.0.5-gentoo-surfacepro3
+40 error argv "/home/disoul/Public/node-v4.2.1-linux-x64/bin/node" "/usr/local/bin/npm" "publish"
+41 error node v4.2.1
+42 error npm  v2.14.7
+43 error code E403
+44 error "You cannot publish over the previously published version 0.5.3." : hanayo
+45 error If you need help, you may report this error at:
+45 error     <https://github.com/npm/npm/issues>
+46 verbose exit [ 1, true ]

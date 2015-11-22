@@ -20,7 +20,7 @@
     "url": "https://github.com/disoul/hanayo/issues"
   },
   "homepage": "https://github.com/disoul/hanayo#readme",
-  "devDependencies": {
+  "dependencies": {
     "commander": "^2.9.0",
     "domutils": "^1.5.1",
     "express": "^4.13.3",

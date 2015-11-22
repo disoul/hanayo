@@ -1,4 +1,4 @@
-# Hanayo(Underdeveloped)
+# Hanayo(Work in Process)
 基于node的一个静态博客站点生成器
 A static blog generator writed by Node.js
 # Usage

@@ -17,6 +17,5 @@ Session.vim
 *.swp
 
 # Static
-article/*
 *.html
 *.css

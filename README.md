@@ -1,7 +1,15 @@
 # Hanayo(Work in Process)
-基于node的一个静态博客站点生成器
+基于node的一个静态博客站点生成器    
 A static blog generator writed by Node.js
 # Usage
+
+## Requirements
+hanayo requires the compass ruby gem in order to compile the default theme which is writen by compass
+
+```
+gem update --system
+gem install compass
+```
 
 ## Install
 

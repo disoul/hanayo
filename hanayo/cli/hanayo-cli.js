@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 var program = require('commander');
-var compile = new require('../util/comileJade.js')();
+var compile = new require('../build/compile.js')();
 var Childprocess = require('child_process');
 var path = require('path');
 var ncp = require('ncp');
@@ -35,6 +35,16 @@ if (typeof cmdValue === 'undefined') {
 
 function build() {
   console.log('build....');
+  console.log('compile compass...');
+  Childprocess.exec('compass compile', {
+    cwd: path.resolve(
+      process.cwd(), './views/template/default/public'),
+    function(error, stdout, srderr) {
+      if (error !== null) {
+        console.error('error:', error);
+      }
+    }
+  });
   compile.build();
   console.log('build complete');
 }

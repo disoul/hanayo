@@ -1,6 +1,6 @@
 {
   "name": "hanayo",
-  "version": "0.5.6",
+  "version": "0.5.8",
   "description": "static blog generator by node",
   "main": " ",
   "bin": {
@@ -24,8 +24,6 @@
     "commander": "^2.9.0",
     "domutils": "^1.5.1",
     "express": "^4.13.3",
-    "gulp": "^3.9.0",
-    "gulp-compass": "^2.1.0",
     "htmlparser2": "^3.8.3",
     "jade": "^1.11.0",
     "js-yaml": "^3.4.3",

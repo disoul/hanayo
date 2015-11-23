@@ -1,18 +1,5 @@
-@import "compass/css3";
+@import "global";
 @import "font";
 @import "color";
 @import "content";
 
-body {
-    min-height: 100vh;
-    @include display-flex;
-    @include flex-direction(column);
-}
-
-#main {
-    @include display-flex;
-    @include flex-direction(column);
-    .page-content {
-        flex: 1;
-    }
-}

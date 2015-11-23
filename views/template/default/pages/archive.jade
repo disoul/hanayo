@@ -1,4 +1,8 @@
 extends ../base.jade
 
+block static
+  link(href='/static/public/css/archive.css', rel='stylesheet')
+  title #{title}'-Archive'
+
 block content-block
   include ../model/archive.jade

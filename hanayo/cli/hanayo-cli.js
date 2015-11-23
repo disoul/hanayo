@@ -44,7 +44,7 @@ function build() {
         console.error('error:', error);
       }
     }
-  });
+  }).stdout.pipe(process.stdout);
   compile.build();
   console.log('build complete');
 }

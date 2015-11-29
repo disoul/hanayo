@@ -1,0 +1,7 @@
+#archive-block
+  .title 
+    p #{tag.title}
+  ul
+    each ele in tag.list
+      li 
+        a(href = ele.link) #{ele.name}

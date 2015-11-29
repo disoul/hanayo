@@ -20,6 +20,7 @@ function DestStream(opt) {
   this.articlePath = path.resolve(process.cwd(), './article');
   this.jadePath = path.resolve(process.cwd(), './views/template/default/pages');
   this.homePath = path.resolve(process.cwd(), './views');
+  this.tagPath = path.resolve(process.cwd(), './views/tag')
 
   this.getArticleObj = function(globalObj, articleObj){
     globalObj.article = articleObj;
@@ -30,6 +31,30 @@ function DestStream(opt) {
     globalObj.list = list;
     return globalObj;
   };
+
+  this.getTagObj = function(getListObj) {
+    var tags = {};
+    getListObj.articles.map(function(article) {
+      article.tag.map(function(tag) {
+        console.log(tag);
+        var tagObj = {
+          title: tag,
+          name: article.title, 
+          date: article.time,
+          link: '/archives/' + article.time.year + '/' +
+                article.time.month + '/' + article.name + '.html'
+        };
+        if (tags[tag] !== undefined) {
+          tags[tag].push(tagObj);
+        } else {
+          tags[tag] = [];
+          tags[tag].push(tagObj);
+        }
+      });
+    });
+    console.log(tags);
+    return tags;
+  }
 
   this.pushListObj = function(ele) {
     for (var i in this.archiveListObj) {
@@ -42,9 +67,11 @@ function DestStream(opt) {
 
 DestStream.prototype._write = function(chunk, encoding, callback) {
   this.obj = JSON.parse(chunk);
+  console.log(this.obj);
   this.homepage(this.obj); // write home page
   this.archive_article(this.obj); // write archives articles
-  
+  this.tag_list();
+ 
 };
 
 
@@ -64,6 +91,31 @@ DestStream.prototype.homepage = function(obj) {
   );
 
 };
+
+DestStream.prototype.tag_list = function() {
+  var self = this;
+  var jadefn = jade.compileFile(
+    path.join(self.jadePath, 'tag.jade'),
+    {cache: true}
+  );
+  var tags = this.getTagObj(this.obj);
+  mkdirp(self.tagPath, function(err) {
+    if (err) throw err;
+    for (var key in tags) {
+      if (key === undefined) return;
+      var tagObj = self.obj;
+      tagObj.tag = {title: key, list: tags[key]};
+      fs.writeFile(
+        path.join(self.tagPath, key + '.html'),
+        jadefn(tagObj),
+        function (err) {
+          if (err) throw err;
+          console.log('write tag', key);
+        }
+      );
+      };
+  });
+}
 
 
 DestStream.prototype.archive_article = function(obj) {
@@ -135,5 +187,6 @@ DestStream.prototype.archive_list = function() {
     );
   });
 };
+
 
 module.exports = DestStream;

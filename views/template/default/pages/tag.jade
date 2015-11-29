@@ -1,0 +1,8 @@
+extends ../base.jade
+
+block static
+  link(href='/static/public/css/tag.css', rel='stylesheet')
+  title #{title}-Tags
+
+block content-block
+  include ../model/tag.jade

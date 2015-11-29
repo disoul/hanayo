@@ -1,0 +1,36 @@
+.article-content {
+    h1 {
+        font-size: 40px;
+        &:before {
+            content: '#';
+            margin-right: 5px;
+            color: palette(Black, Icons);
+        }
+        color: palette(Blue, 600);
+        border-bottom: 1px solid palette(Blue, 100);
+        margin: 12px 0 8px 0;
+    }
+
+    h2 {
+        font-size: 35px;
+        &:before {
+            content: '##';
+            margin-right: 5px;
+            color: palette(Black, Icons);
+        }
+        color: palette(Blue, 500);
+        border-bottom: 1px solid palette(Blue, 100);
+        margin: 10px 0 6px 0;
+    }
+
+    p {
+        color: palette(Black, Text);
+        font-size: 16px;
+    }
+
+    ul {
+        list-style: none;
+        border-left: 5px solid palette(Blue, 500);
+        padding-left: 12px;
+    }
+}

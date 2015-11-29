@@ -1,0 +1,19 @@
+#article-block {
+    .title {
+        border-left: 5px solid palette(Blue, 600);
+        padding-left: 8px;
+        margin-bottom: 5px;
+    }
+    .tags {
+        p {
+            &:before {
+                content: 'label';
+                font-family: 'Material Icons';
+                margin-right: 4px;
+            }
+            padding-left: 5px;    
+            margin: 0;
+        }
+        border-bottom: 1px solid palette(Black, Dividers);
+    }
+}

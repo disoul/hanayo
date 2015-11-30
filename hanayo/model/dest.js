@@ -56,6 +56,14 @@ function DestStream(opt) {
     return tags;
   }
 
+  this.getTagList = function(obj) {
+    var list = [];
+    for (var key in obj) {
+      list.push({name: key, link: '/tag/' + key + '.html'});
+    }
+    return list;
+  };
+
   this.pushListObj = function(ele) {
     for (var i in this.archiveListObj) {
       if (this.archiveListObj[i] == ele)
@@ -70,7 +78,7 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
   console.log(this.obj);
   this.homepage(this.obj); // write home page
   this.archive_article(this.obj); // write archives articles
-  this.tag_list();
+  this.writeTag();
  
 };
 
@@ -92,7 +100,7 @@ DestStream.prototype.homepage = function(obj) {
 
 };
 
-DestStream.prototype.tag_list = function() {
+DestStream.prototype.writeTag = function() {
   var self = this;
   var jadefn = jade.compileFile(
     path.join(self.jadePath, 'tag.jade'),
@@ -101,6 +109,19 @@ DestStream.prototype.tag_list = function() {
   var tags = this.getTagObj(this.obj);
   mkdirp(self.tagPath, function(err) {
     if (err) throw err;
+    var tagPageObj = self.obj;
+    tagPageObj.tag = {
+      title: 'Tags',
+      list: self.getTagList(tags)
+    };
+    fs.writeFile(
+      path.join(self.tagPath, 'index.html'),
+      jadefn(tagPageObj),
+      function(err) {
+        if (err) throw err;
+        console.log('write tag index');
+      }
+    );
     for (var key in tags) {
       if (key === undefined) return;
       var tagObj = self.obj;

@@ -38,13 +38,13 @@ function build() {
   console.log('compile compass...');
   Childprocess.exec('compass compile', {
     cwd: path.resolve(
-      process.cwd(), './views/template/default/public'),
+      process.cwd(), './views/template/default/public')},
     function(error, stdout, srderr) {
       if (error !== null) {
         console.error('error:', error);
       }
     }
-  }).stdout.pipe(process.stdout);
+  ).stdout.pipe(process.stdout);
   compile.build();
   console.log('build complete');
 }

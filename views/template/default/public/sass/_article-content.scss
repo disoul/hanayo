@@ -5,12 +5,17 @@
         margin-bottom: 5px;
     }
     .tags {
-        p {
+        a {
             &:before {
                 content: 'label';
                 font-family: 'Material Icons';
                 margin-right: 4px;
             }
+            &:hover {
+              color: palette(Blue,700);
+            }
+            text-decoration: none;
+            color: palette(Black, Text);
             padding-left: 5px;    
             margin: 0;
         }

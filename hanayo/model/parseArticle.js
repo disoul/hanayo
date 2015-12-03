@@ -1,5 +1,6 @@
 var markdown = require('markdown').markdown;
 var Transform = require('stream').Transform;
+var yaml = require('js-yaml');
 var fs = require('fs');
 var util = require('util');
 var path = require('path');
@@ -22,40 +23,43 @@ function ArticleParse(opt) {
   this.articlePath = path.resolve(process.cwd(), './article');
 
   this.headParse = function(str) {
-    var re = /title: *(\S*)\n/;
-    var obj = {tags: []};
-    var title,tags,author,picture;
-    if ((title = re.exec(str)) !== null) {
-      obj.title = title[1];
-    }
-    re = /tag: *(\S*)\n/;
-    if ((tags = re.exec(str)) !== null){
-      tags[1].split(',').map(function(ele) {
-        obj.tags.push(ele);
-      });
-    }
-    re = /author: *(\S*)\n/;
-    if ((author = re.exec(str)) !== null){
-      obj.author = author[1];
-    }
-    re = /picture: *(\S*)\n/;
-    if ((picture = re.exec(str)) !== null){
-      obj.picture = picture[1];
-    }
-
-    return obj;
+    return yaml.safeLoad(str);
   };
 
   this.pushObj = function(obj, article_path) {
-    var date = fs.statSync(self.articlePath).ctime;
+    var getDateString = function(str) {
+      var datelist = str.split(' ');
+      var timelist = datelist[1].split(':');
+      var t = 0;
+
+      while (t < 3) {
+        if (!timelist[t]) {
+          timelist[t] = '00';
+        } else if(timelist[t].length < 2) {
+          timelist[t] = '0' + timelist[t];
+        }
+      }
+      
+      return datelist[0] + timelist.join(':');
+
+    };
+
+    var date;
+    if (article_path.date) { 
+      date = new Date(getDateString(article_path.date));
+    } else {
+      date = fs.statSync(self.articlePath).ctime;
+    }
+
     this.push(JSON.stringify({
-      flag: 'article', title: obj.title, tag: obj.tags,
+      flag: 'article', title: obj.title, tag: obj.tag,
       author: obj.author, content: obj.content,
       picture: obj.picture,
       time: {
         year: date.getFullYear().toString(),
         month: (date.getMonth() + 1).toString(),
-        day: date.getDay().toString()
+        day: date.getDay().toString(),
+        date: date
       },
       name: path.basename(article_path, '.md')
     }));
@@ -63,7 +67,7 @@ function ArticleParse(opt) {
 
   this.readArticle = function(article) {
     var article_string = fs.readFileSync(article, {encoding: 'utf8'});
-    var re = /(\n----+)/;
+    var re = /(\n---+\n)/;
     var article_exec = re.exec(article_string);
     var head = article_string.slice(0, article_exec.index);
     var articleObj = self.headParse(head + '\n');

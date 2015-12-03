@@ -1,7 +1,12 @@
+---
 title: HelloWorld
 author: Disoul
-tag: hello
-------------------
+tag:
+    - hello
+    - test
+date: 2015-10-3 13:52
+---
+
 # HelloWorld
 
 Hanayo: Hello World!

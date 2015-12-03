@@ -30,6 +30,9 @@ if (typeof cmdValue === 'undefined') {
     case 'init':
       init();
       break;
+    case 'clean':
+      clean();
+      break;
   }
 }
 
@@ -87,4 +90,9 @@ function init() {
       }).stdout.pipe(process.stdout);
     }
   );
+}
+
+function clean() {
+  console.log('clean...');
+  compile.clean();
 }

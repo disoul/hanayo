@@ -3,6 +3,7 @@ var ArticleParse = require('../model/parseArticle.js'),
      YamlParse = require('../model/ymlParse.js'),
   previewParse = require('../model/previewParse.js'),
      DestParse = require('../model/dest.js'),
+          exec = require('child_process').exec,
         fs = require('fs'),
       mkdirp = require('mkdirp'),
       path = require('path');
@@ -18,6 +19,21 @@ function CompileJade() {
     .pipe(previewParse())
     .pipe(JadeParse())
     .pipe(DestParse());
+  };
+
+  this.clean = function() {
+    var rmflag = false;
+    var rmCallback = function(err) {
+      if (err) throw err;
+      if (rmflag) {
+        console.log('clean complete');
+      } else {
+        rmcount = true;
+      }
+    };
+
+    exec('rm -r ' + path.resolve(process.cwd(), './views/tag'), rmCallback);
+    exec('rm -r ' + path.resolve(process.cwd(), './views/archives'), rmCallback);
   };
 }
 

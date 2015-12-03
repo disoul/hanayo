@@ -23,6 +23,7 @@ function ArticleParse(opt) {
   this.articlePath = path.resolve(process.cwd(), './article');
 
   this.headParse = function(str) {
+    console.log(yaml.safeLoad(str));
     return yaml.safeLoad(str);
   };
 
@@ -38,18 +39,22 @@ function ArticleParse(opt) {
         } else if(timelist[t].length < 2) {
           timelist[t] = '0' + timelist[t];
         }
+
+        t++;
       }
-      
-      return datelist[0] + timelist.join(':');
+       
+      console.log(datelist[0] + 'T' + timelist.join(':'));
+      return datelist[0] + 'T' + timelist.join(':');
 
     };
 
     var date;
-    if (article_path.date) { 
-      date = new Date(getDateString(article_path.date));
+    if (obj.date) { 
+      date = new Date(getDateString(obj.date));
     } else {
-      date = fs.statSync(self.articlePath).ctime;
+      date = fs.statSync(article_path).ctime;
     }
+    console.log('date', date);
 
     this.push(JSON.stringify({
       flag: 'article', title: obj.title, tag: obj.tag,

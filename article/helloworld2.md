@@ -1,10 +1,9 @@
 ---
-title: HelloWorld
+title: HelloWorld2
 author: Disoul
 tag:
     - hello
     - test
-date: 2015-10-03 13:52
 ---
 
 # HelloWorld

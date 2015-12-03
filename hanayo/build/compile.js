@@ -22,13 +22,13 @@ function CompileJade() {
   };
 
   this.clean = function() {
-    var rmflag = false;
+    var rmflag = 0;
     var rmCallback = function(err) {
       if (err) throw err;
-      if (rmflag) {
+      rmflag++;
+      if (rmflag == 2) {
         console.log('clean complete');
       } else {
-        rmcount = true;
       }
     };
 

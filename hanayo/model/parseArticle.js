@@ -1,9 +1,29 @@
-var markdown = require('markdown').markdown;
+var markdown = require('markdown-it');
 var Transform = require('stream').Transform;
 var yaml = require('js-yaml');
+var hljs = require('highlight.js');
 var fs = require('fs');
 var util = require('util');
 var path = require('path');
+
+var md = new markdown({
+    html:       false,
+    breaks:     true,
+    langPrefix: 'language-',
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(lang, str).value;
+        } catch (__) {}
+      }
+
+      try {
+        return hljs.highlightAuto(str).value;
+      } catch (__) {}
+
+      return '';
+    }
+});
 
 util.inherits(ArticleParse, Transform);
 
@@ -76,7 +96,8 @@ function ArticleParse(opt) {
     var article_exec = re.exec(article_string);
     var head = article_string.slice(0, article_exec.index);
     var articleObj = self.headParse(head + '\n');
-    articleObj.content = markdown.toHTML(article_string.slice(
+
+    articleObj.content = md.render(article_string.slice(
         article_exec.index+article_exec[1].length, -1
     ));
     this.pushObj(articleObj,article);

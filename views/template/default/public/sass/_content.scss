@@ -3,11 +3,8 @@
     background-color: palette(Grey,200);
 }
 
-.page-content {
+.page-content {    
     #article-block {
-        max-width: 980px;
-        width: 100%;
-        margin: 40px auto 40px auto;
         .mdl-card__title {
             background-color: palette(Blue,A200);
             h2 {

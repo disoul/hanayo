@@ -4,10 +4,8 @@ var app = express();
 
 app.use('/static', express.static(path.resolve(
   process.argv[2], './views/template/default/')));
-app.use('/archives', express.static(path.resolve(
-  process.argv[2], './views/archives')));
-app.use('/tag', express.static(path.resolve(
-  process.argv[2], './views/tag')));
+app.use('/', express.static(path.resolve(
+  process.argv[2], './_build')));
 
 var options = {
   root: path.resolve(process.argv[2], './views'),

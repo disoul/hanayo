@@ -15,12 +15,12 @@ function DestStream(opt) {
   var self = this;
   this.obj = {};
   this.archiveListObj = { dateList: [] };
-  this.archivePath = path.resolve(
-    process.cwd(), './views/archives');
+
+  this.buildPath = path.resolve(process.cwd(), './_build');
   this.articlePath = path.resolve(process.cwd(), './article');
   this.jadePath = path.resolve(process.cwd(), './views/template/default/pages');
-  this.homePath = path.resolve(process.cwd(), './views');
-  this.tagPath = path.resolve(process.cwd(), './views/tag')
+  this.tagPath = path.resolve(this.buildPath, './tag');
+  this.archivePath = path.resolve(this.buildPath, './archives');
 
   this.getArticleObj = function(globalObj, articleObj){
     globalObj.article = articleObj;
@@ -74,11 +74,15 @@ function DestStream(opt) {
 }
 
 DestStream.prototype._write = function(chunk, encoding, callback) {
+  var self = this;
   this.obj = JSON.parse(chunk);
-  console.log(this.obj);
-  this.homepage(this.obj); // write home page
-  this.archive_article(this.obj); // write archives articles
-  this.writeTag();
+  mkdirp(this.buildPath, function(err) {
+    if (err) throw err;
+
+    self.homepage(self.obj); // write home page
+    self.archive_article(self.obj); // write archives articles
+    self.writeTag();
+  });
  
 };
 
@@ -91,7 +95,7 @@ DestStream.prototype.homepage = function(obj) {
   );
 
   fs.writeFile(
-    path.join(self.homePath, 'index.html'),
+    path.join(self.buildPath, 'index.html'),
     jadefn(obj),
     function (err) {
       if (err) throw err;

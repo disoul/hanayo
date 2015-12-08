@@ -14,11 +14,26 @@ function JadeParse(opt) {
   var self = this;
   this.obj = {};
   this.articles = {articles: []};
+  
   this.mergeObj = function(obj) {
     for (var attr in obj) {
       self.obj[attr] = obj[attr];
     }
   };
+
+  this.sortObj = function(obj) {
+    obj.articles.sort(function(a, b) {
+      if (a.time.timestamp > b.time.timestamp) {
+        return -1;
+      }
+      if (a.time.timestamp < b.time.timestamp) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }); 
+  }
+
   this.isMerge = function(obj) {
     if (Object.keys(this.articles).length === 0) return true;
     if (this.articles.article !== undefined) {
@@ -50,6 +65,7 @@ JadeParse.prototype._write = function(chunk, encode, callback) {
 };
 
 JadeParse.prototype._read = function(size) {
+  this.sortObj(this.obj);
   this.push(JSON.stringify(this.obj));
   this.push(null);
 };

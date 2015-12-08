@@ -19,3 +19,6 @@ Session.vim
 # Static
 *.html
 *.css
+
+# Hanayo
+_build/

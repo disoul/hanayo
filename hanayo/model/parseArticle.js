@@ -84,7 +84,8 @@ function ArticleParse(opt) {
         year: date.getFullYear().toString(),
         month: (date.getMonth() + 1).toString(),
         day: date.getDay().toString(),
-        date: date
+        date: date,
+        timestamp: date.getTime()
       },
       name: path.basename(article_path, '.md')
     }));

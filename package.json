@@ -1,6 +1,6 @@
 {
   "name": "hanayo",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "static blog generator by node",
   "main": " ",
   "bin": {

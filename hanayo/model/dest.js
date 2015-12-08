@@ -14,7 +14,7 @@ function DestStream(opt) {
   Writable.call(this, {objectMode: true});
   var self = this;
   this.obj = {};
-  this.archiveListObj = { dateList: [] };
+  this.archiveListObj = [];
 
   this.buildPath = path.resolve(process.cwd(), './_build');
   this.articlePath = path.resolve(process.cwd(), './article');
@@ -66,10 +66,10 @@ function DestStream(opt) {
 
   this.pushListObj = function(ele) {
     for (var i in this.archiveListObj) {
-      if (this.archiveListObj[i] == ele)
+      if (this.archiveListObj == ele)
         return;
     } 
-    this.archiveListObj.dateList.push(ele);
+    this.archiveListObj.push(ele);
   };
 }
 
@@ -82,6 +82,7 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
     self.homepage(self.obj); // write home page
     self.archive_article(self.obj); // write archives articles
     self.writeTag();
+    console.log(self.obj);
   });
  
 };
@@ -152,6 +153,7 @@ DestStream.prototype.archive_article = function(obj) {
     );
     var archive_path = path.join(
       self.archivePath, article.time.year, article.time.month);
+
     mkdirp(archive_path, function(err) {
         if (err) throw err;
         self.pushListObj(
@@ -176,7 +178,7 @@ DestStream.prototype.archive_list = function() {
   var self = this;
   var archiveObj =  this.getListObj(
     this.obj, 
-    this.archiveListObj.dateList.map(function(ele) {
+    this.archiveListObj.map(function(ele) {
       return {name: ele, link: '/archives/' + ele + '/' + 'index.html'};
     }) 
   );
@@ -193,7 +195,7 @@ DestStream.prototype.archive_list = function() {
     }
   );
 
-  this.archiveListObj.dateList.map(function(date) {
+  this.archiveListObj.map(function(date) {
     var list = [];
     fs.readdirSync(path.join(self.archivePath, date))
       .map(function(ele) {

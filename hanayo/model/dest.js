@@ -21,6 +21,8 @@ function DestStream(opt) {
   this.jadePath = path.resolve(process.cwd(), './views/template/default/pages');
   this.tagPath = path.resolve(this.buildPath, './tag');
   this.archivePath = path.resolve(this.buildPath, './archives');
+  this.pagePath = path.resolve(this.buildPath, './pages');
+
 
   this.getArticleObj = function(globalObj, articleObj){
     globalObj.article = articleObj;
@@ -36,7 +38,6 @@ function DestStream(opt) {
     var tags = {};
     getListObj.articles.map(function(article) {
       article.tag.map(function(tag) {
-        console.log(tag);
         var tagObj = {
           title: tag,
           name: article.title, 
@@ -52,8 +53,29 @@ function DestStream(opt) {
         }
       });
     });
-    console.log(tags);
     return tags;
+  }
+
+  this.getPageObj = function(obj, index) {
+    console.log('getstart', obj.articles.length);
+    var pageObj = Object.create(obj); //copy from global obj
+    var pagesCount = Math.ceil(obj.articles.length / obj.pagesize);
+
+    pageObj.pages = [];
+    for (var i = 1;i <= pagesCount;i++) {
+      if (i == index) {
+        pageObj.pages.push({value: i, isCurrentPage: true});
+      } else {
+        pageObj.pages.push({value: i, isCurrentPage: false});
+      }
+    }
+
+    pageObj.articles = obj.articles.slice(
+        (index - 1) * obj.pagesize, 
+        index * obj.pagesize
+    );
+    console.log('getend', obj.articles.length);
+    return pageObj;
   }
 
   this.getTagList = function(obj) {
@@ -66,7 +88,7 @@ function DestStream(opt) {
 
   this.pushListObj = function(ele) {
     for (var i in this.archiveListObj) {
-      if (this.archiveListObj == ele)
+      if (this.archiveListObj[i] == ele)
         return;
     } 
     this.archiveListObj.push(ele);
@@ -82,7 +104,6 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
     self.homepage(self.obj); // write home page
     self.archive_article(self.obj); // write archives articles
     self.writeTag();
-    console.log(self.obj);
   });
  
 };
@@ -90,20 +111,51 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
 
 DestStream.prototype.homepage = function(obj) {
   var self = this;
-  var jadefn = jade.compileFile(
+  if (obj.articles.length > obj.pagesize){
+    this.writePages(obj);
+  } else {
+    obj.pages = [];
+  }
+
+  var indexJadefn = jade.compileFile(
     path.join(self.jadePath, 'index.jade'),
     {cache: true}
   );
 
-  fs.writeFile(
-    path.join(self.buildPath, 'index.html'),
-    jadefn(obj),
-    function (err) {
-      if (err) throw err;
-    }
-  );
+  var self = this;
 
+  fs.writeFile(
+      path.join(self.buildPath, 'index.html'),
+      indexJadefn(self.getPageObj(obj, 1)),
+      function (err) {
+        if (err) throw err;
+      }
+  );
 };
+
+DestStream.prototype.writePages = function(obj) {
+  var self = this;
+  var indexJadefn = jade.compileFile(
+    path.join(self.jadePath, 'index.jade'),
+    {cache: true}
+  );
+  var pageCount = Math.ceil(obj.articles.length / obj.pagesize);
+  console.log('pageCount', pageCount);
+    console.log(obj.articles.length);
+
+  mkdirp(self.pagePath, function(err) {
+    if (err) throw err;
+    console.log(obj.articles.length);
+    var i = 1;
+    for (i;i <= pageCount;i++ ) {
+    console.log(obj.articles.length);
+      fs.writeFileSync(
+          path.join(self.pagePath, i + ".html"),
+          indexJadefn(self.getPageObj(self.obj, i))
+      );     
+    }
+  });
+}
 
 DestStream.prototype.writeTag = function() {
   var self = this;
@@ -124,7 +176,6 @@ DestStream.prototype.writeTag = function() {
       jadefn(tagPageObj),
       function(err) {
         if (err) throw err;
-        console.log('write tag index');
       }
     );
     for (var key in tags) {
@@ -136,7 +187,6 @@ DestStream.prototype.writeTag = function() {
         jadefn(tagObj),
         function (err) {
           if (err) throw err;
-          console.log('write tag', key);
         }
       );
       };
@@ -187,6 +237,7 @@ DestStream.prototype.archive_list = function() {
     path.join(self.jadePath, 'archive.jade'),
     { cache: true }
   );
+  console.log(this.archiveListObj);
   fs.writeFile(
     path.join(self.archivePath, 'index.html'),
     jadefn(archiveObj),

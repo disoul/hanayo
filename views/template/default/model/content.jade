@@ -4,4 +4,13 @@ each article in articles
       h2.mdl-card__title-text !{article.title}
     .tags.mdl-card__supporting-text !{article.preview}
     .mdl-card__actions.mdl-card--border#readmore
-      a(href='archives/' + article.time.year + '/' + article.time.month + '/' + article.name + '.html').mdl-button.mdl-button-icon.mdl-js-button.mdl-js-ripple-effect ReadMore
+      a(href='/archives/' + article.time.year + '/' + article.time.month + '/' + article.name + '.html').mdl-button.mdl-button-icon.mdl-js-button.mdl-js-ripple-effect ReadMore
+
+.pages
+  ul
+  each page in pages
+    li
+      if page.isCurrentPage
+        a.current(href="/pages/#{page.value}.html") #{page.value}
+      else
+        a(href="/pages/#{page.value}.html") #{page.value}

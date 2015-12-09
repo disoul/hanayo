@@ -43,7 +43,6 @@ function ArticleParse(opt) {
   this.articlePath = path.resolve(process.cwd(), './article');
 
   this.headParse = function(str) {
-    console.log(yaml.safeLoad(str));
     return yaml.safeLoad(str);
   };
 
@@ -63,7 +62,6 @@ function ArticleParse(opt) {
         t++;
       }
        
-      console.log(datelist[0] + 'T' + timelist.join(':'));
       return datelist[0] + 'T' + timelist.join(':');
 
     };
@@ -74,7 +72,6 @@ function ArticleParse(opt) {
     } else {
       date = fs.statSync(article_path).ctime;
     }
-    console.log('date', date);
 
     this.push(JSON.stringify({
       flag: 'article', title: obj.title, tag: obj.tag,

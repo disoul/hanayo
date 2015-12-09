@@ -1,27 +1,27 @@
 #archive-block {
-    max-width: 980px;
-    margin: 50px auto 0 auto;
+  max-width: 980px;
+  margin: 50px auto 0 auto;
 
-    .title {
-        border-bottom: 1px solid palette(Black, Dividers);
-        p {
-            font-size: 50px;
-            color: palette(Black, Text);
-        }
+  .title {
+    border-bottom: 1px solid palette(Black, Dividers);
+    p {
+      font-size: 50px;
+      color: palette(Black, Text);
     }
+  }
 
-    ul {
-        margin-top: 30px;
-        border-left: 5px solid palette(Blue,300);
-        list-style: none;
-        padding-left: 15px;
-        li {
-          margin: 10px;
-        }
-        a {
-            text-decoration: none;
-            font-size: 30px;
-        }
+  ul {
+    margin-top: 30px;
+    border-left: 5px solid palette(Blue,300);
+    list-style: none;
+    padding-left: 15px;
+    li {
+      margin: 10px;
     }
+    a {
+      text-decoration: none;
+      font-size: 30px;
+    }
+  }
 
 }

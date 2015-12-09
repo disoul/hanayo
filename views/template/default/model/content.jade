@@ -8,9 +8,9 @@ each article in articles
 
 .pages
   ul
-  each page in pages
-    li
-      if page.isCurrentPage
-        a.current(href="/pages/#{page.value}.html") #{page.value}
-      else
-        a(href="/pages/#{page.value}.html") #{page.value}
+    each page in pages
+      li
+        if page.isCurrentPage
+          a.current(href="/pages/#{page.value}.html") #{page.value}
+        else
+          a(href="/pages/#{page.value}.html") #{page.value}

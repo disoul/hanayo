@@ -2,37 +2,37 @@
 @import "github_hl";
 
 body {
-    min-height: 100vh;
-    @include display-flex;
-    @include flex-direction(column);
+  min-height: 100vh;
+  @include display-flex;
+  @include flex-direction(column);
 }
 
 #main {
-    @include display-flex;
-    @include flex-direction(column);
-    .page-content {
-        flex: 1;
-    }
+  @include display-flex;
+  @include flex-direction(column);
+  .page-content {
+    flex: 1;
+  }
 }
 
 a.mdl-layout-title {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 .mdl-mini-footer__left-section {
-    margin: auto;
+  margin: auto;
 }
 
 .page-content {
-    max-width: 980px;
-    width: 100%;
-    margin: auto;
-    padding: 15px;
-    #article-block {
-      word-wrap: break-word;
-      word-break: break-all;
-      width: 90%;
-      margin: 40px auto 40px auto;
-    }
+  max-width: 980px;
+  width: 100%;
+  margin: auto;
+  padding: 15px;
+  #article-block {
+    word-wrap: break-word;
+    word-break: break-all;
+    width: 90%;
+    margin: 40px auto 40px auto;
+  }
 }

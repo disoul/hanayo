@@ -7,6 +7,8 @@
   #article-block {
     .mdl-card__title {
       background-color: palette(Blue,A200);
+      background-size: 100% auto;
+      background-repeat: no-repeat;
       h2 {
         color: white;
         text-shadow: 0px 0px 3px rgba(#000, 0.7);

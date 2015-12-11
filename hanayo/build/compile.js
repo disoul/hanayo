@@ -32,8 +32,7 @@ function CompileJade() {
       }
     };
 
-    exec('rm -r ' + path.resolve(process.cwd(), './views/tag'), rmCallback);
-    exec('rm -r ' + path.resolve(process.cwd(), './views/archives'), rmCallback);
+    exec('rm -r ' + path.resolve(process.cwd(), './_build'), rmCallback);
   };
 }
 

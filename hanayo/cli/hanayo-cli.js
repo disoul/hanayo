@@ -33,6 +33,9 @@ if (typeof cmdValue === 'undefined') {
     case 'clean':
       clean();
       break;
+    case 'update':
+      update(envValue);
+      break;
   }
 }
 
@@ -96,3 +99,9 @@ function clean() {
   console.log('clean...');
   compile.clean();
 }
+
+function update(theme) {
+  console.log('update...');
+  compile.update(theme);
+  console.log('complete');
+} 

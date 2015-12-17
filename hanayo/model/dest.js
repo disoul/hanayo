@@ -116,7 +116,7 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
 
 DestStream.prototype.homepage = function(obj) {
   var self = this;
-  if ((obj.pagination) && (obj.articles.length > obj.pagesize)) {
+  if (obj.pagination) {
     this.writePages(obj);
   } else {
     obj.pages = [];

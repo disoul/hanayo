@@ -47,30 +47,13 @@ function ArticleParse(opt) {
   };
 
   this.pushObj = function(obj, article_path) {
-    var getDateString = function(str) {
-      var datelist = str.split(' ');
-      var timelist = datelist[1].split(':');
-      var t = 0;
-
-      while (t < 3) {
-        if (!timelist[t]) {
-          timelist[t] = '00';
-        } else if(timelist[t].length < 2) {
-          timelist[t] = '0' + timelist[t];
-        }
-
-        t++;
-      }
-       
-      return datelist[0] + 'T' + timelist.join(':');
-
-    };
-
     var date;
     if (obj.date) { 
-      date = new Date(getDateString(obj.date));
+      date = new Date(obj.date);
+      console.log('use article date', obj.date, date);
     } else {
-      date = fs.statSync(article_path).ctime;
+      date = fs.statSync(article_path).atime;
+      console.log('use data', date);
     }
 
     this.push(JSON.stringify({

@@ -32,6 +32,10 @@ function JadeParse(opt) {
         return 0;
       }
     }); 
+
+    obj.articles.map(function(article, index) {
+      article.index = index;
+    });
   }
 
   this.isMerge = function(obj) {

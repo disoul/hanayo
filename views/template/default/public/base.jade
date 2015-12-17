@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport',content='width=device-width, initial-scale=1.0')
+    link(href='/static/public/bower_components/material-design-lite/material.css',rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons',rel='stylesheet')
+    block static
+      link(href="/static/public/css/index.css",rel='stylesheet')
+      title #{title}
+  body
+    .mdl-layout.mdl-js-layout
+      block head-block
+        include ./model/head.jade
+      main.mdl-layout__content#main
+        .page-content
+          block content-block
+        block footer-block
+          include ./model/footer.jade
+
+script(src='/static/public/bower_components/material-design-lite/material.min.js')

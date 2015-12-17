@@ -15,7 +15,7 @@ function DestStream(opt) {
   var self = this;
   this.obj = {};
   this.archiveListObj = [];
-  this.theme = 'default';
+  this.theme = '';
 
   this.buildPath = path.resolve(process.cwd(), './_build');
   this.articlePath = path.resolve(process.cwd(), './article');
@@ -100,12 +100,15 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
   var self = this;
   this.obj = JSON.parse(chunk);
   this.theme = this.obj.theme;
+  this.jadePath = path.resolve(process.cwd(), './views/template', this.theme, 'pages');
+  console.log('theme', this.theme);
   mkdirp(this.buildPath, function(err) {
     if (err) throw err;
 
     self.homepage(self.obj); // write home page
     self.archive_article(self.obj); // write archives articles
     self.writeTag();
+
   });
  
 };
@@ -113,7 +116,7 @@ DestStream.prototype._write = function(chunk, encoding, callback) {
 
 DestStream.prototype.homepage = function(obj) {
   var self = this;
-  if (obj.articles.length > obj.pagesize){
+  if ((obj.pagination) && (obj.articles.length > obj.pagesize)) {
     this.writePages(obj);
   } else {
     obj.pages = [];
@@ -138,7 +141,7 @@ DestStream.prototype.homepage = function(obj) {
 DestStream.prototype.writePages = function(obj) {
   var self = this;
   var indexJadefn = jade.compileFile(
-    path.join(self.jadePath, 'index.jade'),
+    path.join(self.jadePath, 'page.jade'),
     {cache: true}
   );
   var pageCount = Math.ceil(obj.articles.length / obj.pagesize);

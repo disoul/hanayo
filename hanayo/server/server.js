@@ -2,8 +2,6 @@ var express = require('express'),
      path = require('path');
 var app = express();
 
-app.use('/static', express.static(path.resolve(
-  process.argv[2], './views/template/default/')));
 app.use('/', express.static(path.resolve(
   process.argv[2], './_build')));
 

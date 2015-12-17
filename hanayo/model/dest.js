@@ -15,10 +15,11 @@ function DestStream(opt) {
   var self = this;
   this.obj = {};
   this.archiveListObj = [];
+  this.theme = 'default';
 
   this.buildPath = path.resolve(process.cwd(), './_build');
   this.articlePath = path.resolve(process.cwd(), './article');
-  this.jadePath = path.resolve(process.cwd(), './views/template/default/pages');
+  this.jadePath = path.resolve(process.cwd(), './views/template', this.theme, 'pages');
   this.tagPath = path.resolve(this.buildPath, './tag');
   this.archivePath = path.resolve(this.buildPath, './archives');
   this.pagePath = path.resolve(this.buildPath, './pages');
@@ -98,6 +99,7 @@ function DestStream(opt) {
 DestStream.prototype._write = function(chunk, encoding, callback) {
   var self = this;
   this.obj = JSON.parse(chunk);
+  this.theme = this.obj.theme;
   mkdirp(this.buildPath, function(err) {
     if (err) throw err;
 

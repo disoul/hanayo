@@ -31,10 +31,12 @@ function JadeParse(opt) {
       } else {
         return 0;
       }
-    }); 
+    });
+
+    obj.articleLength = obj.articles.length;
 
     obj.articles.map(function(article, index) {
-      article.index = index;
+      article.index =  obj.articleLength - 1 - index;
     });
   }
 

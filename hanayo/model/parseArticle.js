@@ -56,7 +56,7 @@ function ArticleParse(opt) {
       console.log('use data', date);
     }
 
-    this.push(JSON.stringify({
+    var articleObj = {
       flag: 'article', title: obj.title, tag: obj.tag,
       author: obj.author, content: obj.content,
       picture: obj.picture,
@@ -68,7 +68,14 @@ function ArticleParse(opt) {
         timestamp: date.getTime()
       },
       name: path.basename(article_path, '.md')
-    }));
+    };
+
+    articleObj.url = '/archives/' + articleObj.year + '/' + 
+        articleObj.month + '/' + articleObj.name + '.html';
+    console.log(articleObj.url);
+
+    this.push(JSON.stringify(articleObj));
+
   };
 
   this.readArticle = function(article) {

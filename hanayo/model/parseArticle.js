@@ -70,8 +70,9 @@ function ArticleParse(opt) {
       name: path.basename(article_path, '.md')
     };
 
-    articleObj.url = '/archives/' + articleObj.year + '/' + 
-        articleObj.month + '/' + articleObj.name + '.html';
+    articleObj.url = '/archives/' + articleObj.time.year + '/' + 
+        articleObj.time.month + '/' + articleObj.name + '.html';
+
     console.log(articleObj.url);
 
     this.push(JSON.stringify(articleObj));

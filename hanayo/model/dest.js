@@ -131,7 +131,7 @@ DestStream.prototype.homepage = function(obj) {
 
   fs.writeFile(
       path.join(self.buildPath, 'index.html'),
-      indexJadefn(obj),
+      indexJadefn(self.getPageObj(obj, 1)),
       function (err) {
         if (err) throw err;
       }

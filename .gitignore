@@ -19,3 +19,6 @@ Session.vim
 # Static
 *.html
 *.css
+
+# Build
+_build/
